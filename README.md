@@ -9,6 +9,15 @@
 </p>
 
 <p align="center">
+  <a href="https://iphone-flagship-rental-experience.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Vercel_Live_Demo-iphone--flagship--rental--experience.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=000000" alt="Vercel Live Demo">
+  </a>
+  <a href="https://iphone-flagship-rental-experience.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Status-Live_%E2%97%8F-00E676?style=for-the-badge&logoColor=white&labelColor=111827" alt="Live Status">
+  </a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Three.js-r128-black?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js">
   <img src="https://img.shields.io/badge/GSAP-Animation-88CE02?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP">
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
@@ -19,6 +28,7 @@
 
 <div align="center">
 
+[🌐 Live Demo](https://iphone-flagship-rental-experience.vercel.app/) &nbsp;•&nbsp; 
 [✨ Fitur Utama](#-fitur-fitur-unggulan) &nbsp;•&nbsp; 
 [📱 3D Studio](#1--interactive-real-time-3d-smartphone-viewport) &nbsp;•&nbsp; 
 [🍱 Bento Studio](#3--zero-gap-bento-studio-architecture) &nbsp;•&nbsp; 
@@ -28,6 +38,25 @@
 [📁 Struktur Folder](#-struktur-direktori-project)
 
 </div>
+
+---
+
+## 🌐 Live Demo & Deployment
+
+Aplikasi **ProRent Studio** telah dipublikasikan secara penuh di Vercel Edge Network dan dapat diakses langsung:
+
+<div align="center">
+
+### 🚀 [**https://iphone-flagship-rental-experience.vercel.app/**](https://iphone-flagship-rental-experience.vercel.app/)
+
+| Lingkungan | Platform Hosting | Akselerasi Grafis | Status |
+| :---: | :---: | :---: | :---: |
+| **Production Live** | [Vercel](https://vercel.com/) Edge Global CDN | WebGL + Draco 3D Mesh Decompression | ![Active](https://img.shields.io/badge/Production-Online-00E676?style=flat-square&logo=statuspage&logoColor=white) |
+
+</div>
+
+> [!TIP]
+> **Coba Sekarang**: Buka tautan di atas untuk langsung merasakan pengalaman rotasi smartphone 3D real-time, efek latar kosmik astronomi dinamis, pemilihan 5 paket bento tanpa ruang kosong, dan kalkulasi sewa instan tanpa perlu pengaturan server lokal.
 
 ---
 
@@ -101,6 +130,7 @@ Platform ini dirancang khusus untuk memenuhi kebutuhan sewa profesional:
 * **Core**: Semantic HTML5, Vanilla JavaScript (ES6+), Vanilla CSS3 (Custom Properties & Glassmorphism).
 * **3D & Graphics**: [Three.js](https://threejs.org/) (WebGL), `GLTFLoader`, `DRACOLoader`.
 * **Animasi**: [GSAP (GreenSock)](https://greensock.com/), CSS3 Keyframes.
+* **Deployment**: [Vercel](https://vercel.com/) Global Edge Network.
 * **Icons & Typography**: [FontAwesome 6](https://fontawesome.com/), Google Fonts (*Plus Jakarta Sans*, *Outfit*).
 
 ---
@@ -113,6 +143,7 @@ iphone-flagship-rental-experience/
 ├── style.css                # Titanium glassmorphism & responsive CSS
 ├── script.js                # Three.js 3D engine, cosmic particles, bento logic
 ├── banner.svg               # Native SVG animated banner (GitHub Camo compatible)
+├── header-animation.svg     # Secondary animated banner asset
 ├── iphone.glb               # 3D Model iPhone 15 Pro
 ├── DRACOLoader.js           # Draco geometry decompressor for Three.js
 ├── GLTFLoader.js            # Three.js GLTF/GLB model loader
@@ -149,6 +180,8 @@ iphone-flagship-rental-experience/
 
 3. **Buka di browser:**
    Akses `http://localhost:8899` pada browser pilihan Anda.
+
+> 💡 *Ingin langsung mencoba tanpa menjalankan server lokal? Kunjungi versi live di [iphone-flagship-rental-experience.vercel.app](https://iphone-flagship-rental-experience.vercel.app/)*
 
 ---
 
