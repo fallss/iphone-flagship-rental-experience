@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./header-animation.svg" alt="ProRent Studio Animated Banner" width="100%">
+  <img src="./banner.svg" alt="ProRent Studio Animated Banner" width="100%">
 </p>
 
 <p align="center">
@@ -112,7 +112,7 @@ iphone-flagship-rental-experience/
 ├── index.html               # Semantic HTML markup & layout
 ├── style.css                # Titanium glassmorphism & responsive CSS
 ├── script.js                # Three.js 3D engine, cosmic particles, bento logic
-├── header-animation.svg     # Native SVG animated banner (GitHub Camo compatible)
+├── banner.svg               # Native SVG animated banner (GitHub Camo compatible)
 ├── iphone.glb               # 3D Model iPhone 15 Pro
 ├── DRACOLoader.js           # Draco geometry decompressor for Three.js
 ├── GLTFLoader.js            # Three.js GLTF/GLB model loader
