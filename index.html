@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>PoneRent | Penyewaan iPhone Series Terlengkap & Resmi</title>
-    <meta name="description" content="Penyewaan iPhone Series resmi terlengkap di Indonesia: iPhone 15 Pro Max, 15 Pro, 15 Plus, dan 15. Unit 100% original, bebas akun iCloud, sewa harian/mingguan/bulanan untuk konten, event, dan konser.">
+    <title>ProRent Studio | Penyewaan Flagship iPhone Resmi & Profesional</title>
+    <meta name="description" content="ProRent Studio - Platform penyewaan flagship iPhone resmi terlengkap di Indonesia: iPhone 15 Pro Max Titanium, 15 Pro, 15 Plus, dan 15. Unit 100% original, bebas akun iCloud, sewa harian/mingguan/bulanan untuk konten, event, dan konser.">
 
-    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <!-- Google Fonts: Inter, Plus Jakarta Sans & Space Grotesk (High Clarity & Professional UI) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -37,8 +37,22 @@
 
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- Synchronous Theme Pre-initializer -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('prorent_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
-<body data-theme="dark">
+<body>
+    <!-- Cosmic Astronomy Starfield Background -->
+    <canvas id="cosmic-canvas" class="cosmic-canvas" aria-hidden="true"></canvas>
+    <div class="cosmic-ambient-glow cosmic-glow-1" aria-hidden="true"></div>
+    <div class="cosmic-ambient-glow cosmic-glow-2" aria-hidden="true"></div>
+    <div class="cosmic-ambient-glow cosmic-glow-3" aria-hidden="true"></div>
+
     <!-- Top Scroll Progress Bar -->
     <div id="scroll-progress" class="scroll-progress-bar"></div>
 
@@ -48,7 +62,7 @@
             <div class="loader-phone-icon">
                 <i class="fa-solid fa-mobile-screen"></i>
             </div>
-            <div class="loader-title">PONE <span>RENT </span></div>
+            <div class="loader-title logo-text"><span class="logo-prefix">PRO</span><span class="logo-accent">RENT</span> <span class="logo-tag"><span class="tag-star">✦</span>Studio</span></div>
             <div class="loader-bar"><div class="loader-bar-fill"></div></div>
             <p class="loader-text">Memuat Studio Sewa iPhone...</p>
         </div>
@@ -64,14 +78,21 @@
     <header class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">
-                <span class="logo-mark"><i class="fa-solid fa-mobile-screen-button"></i></span>
-                Pone<span class="logo-accent">Rent</span>
+                <span class="logo-mark">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span class="logo-orbit"></span>
+                </span>
+                <span class="logo-text">
+                    <span class="logo-prefix">Pro</span><span class="logo-accent">Rent</span>
+                </span>
+                <span class="logo-tag"><span class="tag-star">✦</span>Studio</span>
             </a>
 
             <nav class="nav-links">
                 <a href="#home" class="nav-link active">Studio 3D</a>
                 <a href="#highlights" class="nav-link">Keunggulan</a>
                 <a href="#products" class="nav-link">Katalog Sewa</a>
+                <a href="#bundles" class="nav-link">Paket Bundling</a>
                 <a href="#compare" class="nav-link">Komparasi</a>
                 <a href="#tradein" class="nav-link">Kalkulator Sewa</a>
                 <a href="#reviews" class="nav-link">Ulasan</a>
@@ -109,20 +130,30 @@
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
     <aside class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-header">
-            <div class="logo">Pone<span class="logo-accent">Rent</span></div>
+            <div class="logo">
+                <span class="logo-mark">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span class="logo-orbit"></span>
+                </span>
+                <span class="logo-text">
+                    <span class="logo-prefix">Pro</span><span class="logo-accent">Rent</span>
+                </span>
+                <span class="logo-tag"><span class="tag-star">✦</span>Studio</span>
+            </div>
             <button class="close-menu" id="close-menu" aria-label="Tutup menu"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="mobile-menu-body">
             <a href="#home" class="mobile-link"><i class="fa-solid fa-house"></i> Studio 3D</a>
             <a href="#highlights" class="mobile-link"><i class="fa-solid fa-shield-halved"></i> Keunggulan Sewa</a>
             <a href="#products" class="mobile-link"><i class="fa-solid fa-mobile-screen"></i> Katalog Sewa iPhone</a>
+            <a href="#bundles" class="mobile-link"><i class="fa-solid fa-boxes-packing"></i> Paket Bundling Lengkap</a>
             <a href="#compare" class="mobile-link"><i class="fa-solid fa-code-compare"></i> Komparasi Spesifikasi</a>
             <a href="#tradein" class="mobile-link"><i class="fa-solid fa-calculator"></i> Kalkulator Sewa Hemat</a>
             <a href="#reviews" class="mobile-link"><i class="fa-solid fa-star"></i> Ulasan Penyewa</a>
         </div>
         <div class="mobile-menu-footer">
-            <p>Customer Support: +62 812-8888-PONE</p>
-            <p class="text-muted">© 2026 Pone Rent Indonesia.</p>
+            <p>Customer Support: +62 812-8888-PRO</p>
+            <p class="text-muted">© 2026 ProRent Studio Indonesia.</p>
         </div>
     </aside>
 
@@ -217,19 +248,19 @@
                     <!-- Ground Contact Drop Shadow (Previewed.app Studio Filter) -->
                     <div class="hero-contact-shadow" id="hero-contact-shadow"></div>
 
-                    <!-- Refined Minimalist Feature Markers -->
-                    <div class="feature-tag tag-camera" id="tag-camera">
+                    <!-- Refined Interactive Feature Markers -->
+                    <button class="feature-tag tag-camera" id="tag-camera" type="button" title="Inspeksi Sistem Kamera 48MP">
                         <span class="tag-marker"></span>
-                        <span>48MP Photonic Camera System</span>
-                    </div>
-                    <div class="feature-tag tag-chassis" id="tag-chassis">
+                        <span class="tag-text">48MP Photonic Camera System</span>
+                    </button>
+                    <button class="feature-tag tag-chassis" id="tag-chassis" type="button" title="Inspeksi Bodi Grade 5 Titanium">
                         <span class="tag-marker"></span>
-                        <span>Aerospace Grade 5 Titanium</span>
-                    </div>
-                    <div class="feature-tag tag-screen" id="tag-screen">
+                        <span class="tag-text">Aerospace Grade 5 Titanium</span>
+                    </button>
+                    <button class="feature-tag tag-screen" id="tag-screen" type="button" title="Inspeksi Layar OLED ProMotion">
                         <span class="tag-marker"></span>
-                        <span>Dynamic OLED ProMotion</span>
-                    </div>
+                        <span class="tag-text">Dynamic OLED ProMotion</span>
+                    </button>
 
                     <!-- 3D Controls -->
                     <div class="canvas-controls">
@@ -268,7 +299,7 @@
                 </div>
 
                 <div class="bento-grid">
-                    <!-- Bento Card 1: Titanium -->
+                    <!-- Bento Card 1: Titanium Structure -->
                     <div class="bento-card bento-large card-3d-tilt" data-scroll-reveal>
                         <div class="bento-content">
                             <span class="bento-tag">STRUKTUR KELAS AEROSPACE</span>
@@ -277,6 +308,12 @@
                             <div class="bento-metric">
                                 <span class="metric-num">19%</span>
                                 <span class="metric-desc">Lebih ringan dari generasi stainless steel dengan durabilitas superior</span>
+                            </div>
+                            <div class="bento-finish-chips">
+                                <span class="chip-finish" style="--c:#8a857b;">Natural</span>
+                                <span class="chip-finish" style="--c:#2b3846;">Blue</span>
+                                <span class="chip-finish" style="--c:#e2e4e7;">White</span>
+                                <span class="chip-finish" style="--c:#1f2124;">Black</span>
                             </div>
                         </div>
                     </div>
@@ -288,7 +325,7 @@
                             <h3>Arsitektur 3nm Bionic</h3>
                             <p>35 triliun operasi neural per detik. Dilengkapi akselerasi hardware Ray Tracing untuk grafik setara konsol game modern.</p>
                             <div class="tech-spec-badge">
-                                <span>3nm NODE • 6-CORE GPU</span>
+                                <span>3nm NODE • 6-CORE GPU • 35 TOPS</span>
                             </div>
                         </div>
                     </div>
@@ -298,22 +335,25 @@
                         <div class="bento-content">
                             <span class="bento-tag">OPTIK PROFESIONAL</span>
                             <h3>Sistem Tetraprisma 5x</h3>
-                            <p>Desain pantulan cahaya internal empat lapis dengan stabilisasi sensor optik 3D (OIS) untuk foto jarak jauh yang tajam tanpa noise.</p>
+                            <p>Desain pantulan cahaya internal empat lapis dengan stabilisasi sensor optik 3D (OIS) untuk foto konser & event yang tajam tanpa blur.</p>
                             <div class="tech-spec-badge">
-                                <span>120mm FOCAL LENGTH • F/2.8</span>
+                                <span>120mm FOCAL LENGTH • F/2.8 • 3D OIS</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Bento Card 4: Battery & Energy -->
-                    <div class="bento-card bento-wide card-3d-tilt" data-scroll-reveal>
+                    <!-- Bento Card 4: Battery & Fast Charge (Spans 2 columns to perfectly fill row 2) -->
+                    <div class="bento-card bento-large bento-battery card-3d-tilt" data-scroll-reveal>
                         <div class="bento-content">
-                            <span class="bento-tag">MANAJEMEN DAYA PINTAR</span>
-                            <h3>Daya Tahan Baterai Seharian Penuh</h3>
-                            <p>Optimasi efisiensi silikon cerdas memberikan waktu putar video hingga 29 jam nonstop. Pengisian daya cepat 50% hanya dalam 25 menit dengan port universal USB-C berkecepatan 10Gbps.</p>
+                            <span class="bento-tag">MANAJEMEN DAYA PINTAR & KONEKTIVITAS</span>
+                            <h3>Daya Tahan Baterai Seharian Penuh & USB-C 10Gbps</h3>
+                            <p>Optimasi efisiensi silikon cerdas memberikan waktu putar video hingga 29 jam nonstop. Pengisian daya cepat 50% hanya dalam 25 menit dengan port universal USB-C berkecepatan transfer 10Gbps untuk transfer data ProRes instan.</p>
                             <div class="battery-status-bar">
                                 <div class="battery-fill"></div>
-                                <span class="battery-label">100% Siap Kerja • Arsitektur Termal Pasif</span>
+                                <div class="battery-meta-row">
+                                    <span class="battery-label"><i class="fa-solid fa-bolt" style="color:var(--accent-blue);"></i> Fast Charge 50% dlm 25 Menit</span>
+                                    <span class="battery-label"><i class="fa-solid fa-circle-check" style="color:var(--accent-emerald);"></i> Battery Health 90%+ Terjamin</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -386,25 +426,39 @@
 
                     <!-- Category Tabs -->
                     <div class="category-tabs" id="category-tabs">
-                        <button class="cat-tab active" data-category="All">Semua iPhone 15</button>
+                        <button class="cat-tab active" data-category="All"><i class="fa-solid fa-layer-group"></i> Semua iPhone 15</button>
                         <button class="cat-tab" data-category="ProMax">15 Pro Max</button>
                         <button class="cat-tab" data-category="Pro">15 Pro</button>
                         <button class="cat-tab" data-category="Plus">15 Plus</button>
                         <button class="cat-tab" data-category="Standard">15 Standard</button>
                     </div>
 
-                    <!-- Series Chips Filter -->
-                    <div class="brand-filter-chips" id="brand-filters"></div>
+                    <!-- Storage Capacity Chips Filter (Replaces redundant duplicate brand buttons) -->
+                    <div class="filter-subrow">
+                        <div class="storage-filter-chips" id="storage-filters" aria-label="Filter Kapasitas Memori">
+                            <span class="storage-filter-label"><i class="fa-solid fa-hard-drive"></i> Kapasitas:</span>
+                            <button class="storage-chip active" data-storage="All">Semua</button>
+                            <button class="storage-chip" data-storage="128GB">128GB</button>
+                            <button class="storage-chip" data-storage="256GB">256GB</button>
+                            <button class="storage-chip" data-storage="512GB">512GB</button>
+                            <button class="storage-chip" data-storage="1TB">1TB</button>
+                        </div>
 
-                    <!-- Sort Selector -->
-                    <div class="sort-selector-wrapper">
-                        <label for="sort-select"><i class="fa-solid fa-arrow-down-short-wide"></i> Urutan:</label>
-                        <select id="sort-select" class="sort-dropdown">
-                            <option value="featured">Paling Populer Disewa</option>
-                            <option value="price-low">Tarif: Termurah ke Tertinggi</option>
-                            <option value="price-high">Tarif: Tertinggi ke Termurah</option>
-                            <option value="name">Tipe: A - Z</option>
-                        </select>
+                        <!-- Sort Selector -->
+                        <div class="sort-selector-wrapper">
+                            <label for="sort-select"><i class="fa-solid fa-arrow-down-short-wide"></i> Urutan:</label>
+                            <select id="sort-select" class="sort-dropdown">
+                                <option value="featured">Paling Populer Disewa</option>
+                                <option value="price-low">Tarif: Termurah ke Tertinggi</option>
+                                <option value="price-high">Tarif: Tertinggi ke Termurah</option>
+                                <option value="name">Tipe: A - Z</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Live Results Count Bar -->
+                    <div class="catalog-status-bar">
+                        <span id="catalog-count-pill" class="catalog-count-pill"><i class="fa-solid fa-circle-check"></i> Memuat unit sewa...</span>
                     </div>
                 </div>
 
@@ -418,6 +472,518 @@
                     <p>Silakan coba kata kunci lain atau pilih kategori yang berbeda.</p>
                     <button class="btn-primary" id="btn-reset-filters">Reset Semua Filter</button>
                 </div>
+            </div>
+        </section>
+
+        <!-- Exclusive Event & Creator Bundles Section (Add-UI Feature Showcase) -->
+        <section id="bundles" class="bundles-section section-padding">
+            <div class="container">
+                <div class="section-header text-center" data-scroll-reveal>
+                    <span class="section-tag"><i class="fa-solid fa-sparkles"></i> PAKET SIAP PAKAI</span>
+                    <h2 class="section-title">Paket Bundling Event & Kreator</h2>
+                    <p class="section-subtitle">Sewa iPhone lengkap bersama gear pendukung: MagSafe powerbank, gimbal stabilizer 3-axis, tripod, hingga wireless mic. Lebih hemat hingga Rp 120.000 dibanding sewa satuan.</p>
+                </div>
+
+                <!-- 5-Direction Variant Switcher Bar (Powered by add-ui skill) -->
+                <div class="variant-switcher-bar" data-scroll-reveal>
+                    <div class="switcher-info">
+                        <span class="switcher-tag"><i class="fa-solid fa-sliders"></i> ADD-UI EXPLORER:</span>
+                        <span class="switcher-desc">Pilih 1 dari 5 variasi desain UI:</span>
+                    </div>
+                    <div class="variant-pills" id="bundle-variant-pills" role="tablist">
+                        <button class="variant-pill active" data-variant="1" role="tab" aria-selected="true" title="Variasi 1: Studio Bento Cards">
+                            <span class="v-num">01</span> Bento Studio
+                        </button>
+                        <button class="variant-pill" data-variant="2" role="tab" aria-selected="false" title="Variasi 2: Interactive Tabbed Stage">
+                            <span class="v-num">02</span> Tabbed Stage
+                        </button>
+                        <button class="variant-pill" data-variant="3" role="tab" aria-selected="false" title="Variasi 3: Comparative Tier Columns">
+                            <span class="v-num">03</span> Tier Columns
+                        </button>
+                        <button class="variant-pill" data-variant="4" role="tab" aria-selected="false" title="Variasi 4: Cinematic Editorial Reel">
+                            <span class="v-num">04</span> Editorial Reel
+                        </button>
+                        <button class="variant-pill" data-variant="5" role="tab" aria-selected="false" title="Variasi 5: Modular Swiss List">
+                            <span class="v-num">05</span> Swiss List
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- VARIANT 01: ARCHITECTURAL STUDIO BENTO CARDS (DEFAULT) -->
+                <!-- ======================================================= -->
+                <div class="bundle-view bundle-view-active" id="bundle-view-1">
+                    <div class="bento-bundles-grid">
+                        <!-- Featured Hero Card: Konser VIP -->
+                        <div class="bento-bundle-card bento-bundle-featured">
+                            <div class="bento-bundle-glow"></div>
+                            <div class="bundle-badge-top">
+                                <span class="badge-pill badge-popular"><i class="fa-solid fa-fire"></i> Best Seller Konser</span>
+                                <span class="badge-savings">Hemat Rp 65.000 / hr</span>
+                            </div>
+                            <div class="bento-bundle-layout">
+                                <div class="bento-bundle-content">
+                                    <h3 class="bundle-title">Paket Konser & Festival VIP</h3>
+                                    <p class="bundle-desc">Dirancang khusus untuk konser musik dan festival akbar. Zoom tajam 5x optik bawaan iPhone 15 Pro Max dipadu baterai MagSafe magnetic tanpa putus.</p>
+                                    
+                                    <div class="bundle-gear-pills">
+                                        <span class="gear-pill"><i class="fa-solid fa-mobile-screen"></i> iPhone 15 Pro Max 512GB</span>
+                                        <span class="gear-pill"><i class="fa-solid fa-battery-three-quarters"></i> Apple MagSafe Battery Pack</span>
+                                        <span class="gear-pill"><i class="fa-solid fa-camera"></i> Monopod / Tripod Kompak 1.6m</span>
+                                        <span class="gear-pill"><i class="fa-solid fa-shield"></i> Lanyard Anti-Jatuh VIP</span>
+                                    </div>
+
+                                    <div class="bundle-pricing-row">
+                                        <div class="bundle-price-block">
+                                            <span class="bundle-price">Rp 235.000</span>
+                                            <span class="bundle-unit">/ hari</span>
+                                            <span class="bundle-strikethrough">Rp 300.000</span>
+                                        </div>
+                                        <button class="btn-primary" onclick="addBundleToCart(101, 'Paket Konser & Festival VIP', 235000, 'iphone15_pro_natural.jpg')">
+                                            <i class="fa-solid fa-calendar-check"></i> Sewa Paket Konser
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bento-bundle-media">
+                                    <img src="iphone15_pro_natural.jpg" alt="Paket Konser VIP" class="bundle-img" loading="lazy">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Cinematic Creator -->
+                        <div class="bento-bundle-card">
+                            <div class="bundle-badge-top">
+                                <span class="badge-pill badge-pro"><i class="fa-solid fa-video"></i> Studio Production</span>
+                                <span class="badge-savings">Hemat Rp 95.000 / hr</span>
+                            </div>
+                            <div class="bento-bundle-thumb">
+                                <img src="iphone15_pro_blue.jpg" alt="Paket Cinematic Creator" class="bundle-img-sm" loading="lazy">
+                            </div>
+                            <h3 class="bundle-title">Paket Cinematic Creator 4K</h3>
+                            <p class="bundle-desc">Solusi rekam video komersial dan vlog 4K 60fps Log ProRes dengan gimbal 3-axis dan audio studio.</p>
+                            <div class="bundle-gear-pills">
+                                <span class="gear-pill"><i class="fa-solid fa-mobile-screen"></i> 15 Pro Max 1TB</span>
+                                <span class="gear-pill"><i class="fa-solid fa-arrows-up-down-left-right"></i> DJI Osmo Mobile 6</span>
+                                <span class="gear-pill"><i class="fa-solid fa-hard-drive"></i> SanDisk SSD 1TB</span>
+                                <span class="gear-pill"><i class="fa-solid fa-microphone"></i> Wireless Lapel Mic</span>
+                            </div>
+                            <div class="bundle-pricing-row">
+                                <div class="bundle-price-block">
+                                    <span class="bundle-price">Rp 310.000</span>
+                                    <span class="bundle-unit">/ hari</span>
+                                </div>
+                                <button class="btn-primary" onclick="addBundleToCart(102, 'Paket Cinematic Creator 4K', 310000, 'iphone15_pro_blue.jpg')">
+                                    <i class="fa-solid fa-calendar-check"></i> Sewa
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Wedding Documentation Duo -->
+                        <div class="bento-bundle-card">
+                            <div class="bundle-badge-top">
+                                <span class="badge-pill badge-event"><i class="fa-solid fa-users"></i> Duo Kit Event</span>
+                                <span class="badge-savings">Hemat Rp 120.000 / hr</span>
+                            </div>
+                            <div class="bento-bundle-thumb">
+                                <img src="iphone15_pro_white.jpg" alt="Paket Wedding Duo" class="bundle-img-sm" loading="lazy">
+                            </div>
+                            <h3 class="bundle-title">Paket Wedding & Event Duo</h3>
+                            <p class="bundle-desc">Dua unit iPhone 15 Pro siap pakai untuk tim dokumentasi pernikahan, seminar, dan acara keluarga.</p>
+                            <div class="bundle-gear-pills">
+                                <span class="gear-pill"><i class="fa-solid fa-mobile-screen"></i> 2x iPhone 15 Pro 256GB</span>
+                                <span class="gear-pill"><i class="fa-solid fa-bolt"></i> 2x MagSafe 10.000mAh</span>
+                                <span class="gear-pill"><i class="fa-solid fa-lightbulb"></i> 2x LED Pocket Light</span>
+                                <span class="gear-pill"><i class="fa-solid fa-box"></i> Peli Protective Case</span>
+                            </div>
+                            <div class="bundle-pricing-row">
+                                <div class="bundle-price-block">
+                                    <span class="bundle-price">Rp 380.000</span>
+                                    <span class="bundle-unit">/ hari</span>
+                                </div>
+                                <button class="btn-primary" onclick="addBundleToCart(103, 'Paket Wedding & Event Duo', 380000, 'iphone15_pro_white.jpg')">
+                                    <i class="fa-solid fa-calendar-check"></i> Sewa
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Holiday & Travel Creator -->
+                        <div class="bento-bundle-card">
+                            <div class="bundle-badge-top">
+                                <span class="badge-pill badge-travel"><i class="fa-solid fa-plane-departure"></i> Travel & Vacation</span>
+                                <span class="badge-savings">Hemat Rp 45.000 / hr</span>
+                            </div>
+                            <div class="bento-bundle-thumb">
+                                <img src="iphone15_pro_black.jpg" alt="Paket Holiday & Travel" class="bundle-img-sm" loading="lazy">
+                            </div>
+                            <h3 class="bundle-title">Paket Holiday & Travel Creator</h3>
+                            <p class="bundle-desc">Solusi ringkas dan tangguh untuk liburan, vlogging jalan-jalan, dan konten petualangan bebas repot.</p>
+                            <div class="bundle-gear-pills">
+                                <span class="gear-pill"><i class="fa-solid fa-mobile-screen"></i> iPhone 15 Pro 256GB</span>
+                                <span class="gear-pill"><i class="fa-solid fa-battery-three-quarters"></i> MagSafe Fast Battery</span>
+                                <span class="gear-pill"><i class="fa-solid fa-camera"></i> Mini Gorilla Tripod</span>
+                                <span class="gear-pill"><i class="fa-solid fa-shield"></i> Waterproof Case IP68</span>
+                            </div>
+                            <div class="bundle-pricing-row">
+                                <div class="bundle-price-block">
+                                    <span class="bundle-price">Rp 175.000</span>
+                                    <span class="bundle-unit">/ hari</span>
+                                </div>
+                                <button class="btn-primary" onclick="addBundleToCart(104, 'Paket Holiday & Travel Creator', 175000, 'iphone15_pro_black.jpg')">
+                                    <i class="fa-solid fa-calendar-check"></i> Sewa
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Studio Custom Rig & Concierge VIP -->
+                        <div class="bento-bundle-card bento-custom-card">
+                            <div class="bundle-badge-top">
+                                <span class="badge-pill badge-custom"><i class="fa-solid fa-wand-magic-sparkles"></i> Custom Kit On-Demand</span>
+                                <span class="badge-instant"><i class="fa-solid fa-bolt"></i> Siap 1 Jam</span>
+                            </div>
+                            <div class="custom-card-header">
+                                <h3 class="bundle-title">Rancang Kit Kustom Kru</h3>
+                                <p class="bundle-desc">Butuh kombinasi multi-unit, gimbal heavy-duty, SSD eksternal, atau wireless audio khusus?</p>
+                            </div>
+                            <div class="custom-gear-selector">
+                                <span class="gear-select-pill active" onclick="toggleGearPill(this)"><i class="fa-solid fa-check"></i> Lens Anamorphic</span>
+                                <span class="gear-select-pill active" onclick="toggleGearPill(this)"><i class="fa-solid fa-check"></i> Røde Wireless Pro</span>
+                                <span class="gear-select-pill active" onclick="toggleGearPill(this)"><i class="fa-solid fa-check"></i> DJI RS3 Gimbal</span>
+                                <span class="gear-select-pill active" onclick="toggleGearPill(this)"><i class="fa-solid fa-check"></i> SanDisk SSD 2TB</span>
+                                <span class="gear-select-pill" onclick="toggleGearPill(this)"><i class="fa-solid fa-plus"></i> Multi-Unit Setup</span>
+                                <span class="gear-select-pill" onclick="toggleGearPill(this)"><i class="fa-solid fa-plus"></i> Teleprompter Kit</span>
+                            </div>
+                            <div class="custom-perks-list">
+                                <div class="custom-perk-row"><i class="fa-solid fa-truck-fast"></i> Antar-Jemput Gratis Jabodetabek</div>
+                                <div class="custom-perk-row"><i class="fa-solid fa-shield-halved"></i> Garansi Unit Cadangan Standby</div>
+                            </div>
+                            <div class="bundle-pricing-row">
+                                <div class="bundle-price-block">
+                                    <span class="custom-rate-tag">Tarif Kustom Fleksibel</span>
+                                </div>
+                                <a href="https://wa.me/6281234567890?text=Halo%20ProRent%20Studio,%20saya%20ingin%20konsultasi%20paket%20sewa%20custom%20kit%20kru%20dan%20event" target="_blank" class="btn-primary">
+                                    <i class="fa-brands fa-whatsapp"></i> Konsultasi Kit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Studio Guarantee & Fleet Perks Banner -->
+                    <div class="bento-trust-strip">
+                        <div class="trust-strip-item">
+                            <div class="trust-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                            <div class="trust-text">
+                                <strong>Antar-Jemput Langsung</strong>
+                                <span>Kurir internal kami siap antar ke venue/hotel Anda</span>
+                            </div>
+                        </div>
+                        <div class="trust-strip-item">
+                            <div class="trust-icon"><i class="fa-solid fa-battery-full"></i></div>
+                            <div class="trust-text">
+                                <strong>Battery Health 100%</strong>
+                                <span>Unit fresh tanpa penurunan performa rekaman</span>
+                            </div>
+                        </div>
+                        <div class="trust-strip-item">
+                            <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <div class="trust-text">
+                                <strong>Garansi Swap Kilat</strong>
+                                <span>Unit pengganti standby jika ada kendala di lapangan</span>
+                            </div>
+                        </div>
+                        <div class="trust-strip-item">
+                            <div class="trust-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                            <div class="trust-text">
+                                <strong>Bebas Deposit Rumit</strong>
+                                <span>Proses verifikasi profesional, cepat, & terpercaya</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- VARIANT 02: INTERACTIVE TABBED GEAR STAGE               -->
+                <!-- ======================================================= -->
+                <div class="bundle-view" id="bundle-view-2" style="display:none;">
+                    <div class="tabbed-stage-card">
+                        <div class="tabbed-nav-header">
+                            <button class="stage-tab active" data-stage="1">
+                                <i class="fa-solid fa-fire"></i> Konser & Festival VIP
+                            </button>
+                            <button class="stage-tab" data-stage="2">
+                                <i class="fa-solid fa-video"></i> Cinematic Creator 4K
+                            </button>
+                            <button class="stage-tab" data-stage="3">
+                                <i class="fa-solid fa-users"></i> Wedding & Event Duo
+                            </button>
+                            <button class="stage-tab" data-stage="4">
+                                <i class="fa-solid fa-plane"></i> Holiday & Traveling
+                            </button>
+                        </div>
+                        <div class="stage-body-grid" id="stage-body-content">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- VARIANT 03: COMPARATIVE TIER COLUMNS                   -->
+                <!-- ======================================================= -->
+                <div class="bundle-view" id="bundle-view-3" style="display:none;">
+                    <div class="tier-columns-grid">
+                        <!-- Tier 1 -->
+                        <div class="tier-card">
+                            <div class="tier-header">
+                                <span class="tier-subtitle">ENTRY LEVEL</span>
+                                <h3 class="tier-name">Traveling Starter</h3>
+                                <div class="tier-price">Rp 185.000 <span>/ hari</span></div>
+                                <p class="tier-desc">Cocok untuk pelancong dan liburan santai dengan baterai monster.</p>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> iPhone 15 Plus 256GB</li>
+                                <li><i class="fa-solid fa-check"></i> Waterproof Pouch IPX8</li>
+                                <li><i class="fa-solid fa-check"></i> Travel Charger Universal</li>
+                                <li><i class="fa-solid fa-check"></i> Baterai Health 95%+</li>
+                                <li class="disabled"><i class="fa-solid fa-xmark"></i> 5x Optical Telephoto</li>
+                                <li class="disabled"><i class="fa-solid fa-xmark"></i> ProRes Log Recording</li>
+                            </ul>
+                            <button class="btn-secondary w-100" onclick="addBundleToCart(104, 'Traveling Starter Bundle', 185000, 'iphone15_pink.jpg')">
+                                Pilih Paket Starter
+                            </button>
+                        </div>
+
+                        <!-- Tier 2 (Highlighted) -->
+                        <div class="tier-card tier-highlighted">
+                            <div class="tier-highlight-badge">PALING DIMINATI KONSER</div>
+                            <div class="tier-header">
+                                <span class="tier-subtitle">POPULAR CHOICE</span>
+                                <h3 class="tier-name">Konser & Event VIP</h3>
+                                <div class="tier-price">Rp 235.000 <span>/ hari</span></div>
+                                <p class="tier-desc">Kit lengkap siap tempur tanpa khawatir baterai habis di venue.</p>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> iPhone 15 Pro Max 512GB</li>
+                                <li><i class="fa-solid fa-check"></i> Apple MagSafe Battery Pack</li>
+                                <li><i class="fa-solid fa-check"></i> Monopod / Tripod Kompak 1.6m</li>
+                                <li><i class="fa-solid fa-check"></i> Lanyard Anti-Jatuh VIP</li>
+                                <li><i class="fa-solid fa-check"></i> 5x Optical Tetraprism Zoom</li>
+                                <li><i class="fa-solid fa-check"></i> Asuransi Perlindungan Kerusakan</li>
+                            </ul>
+                            <button class="btn-primary w-100" onclick="addBundleToCart(101, 'Paket Konser & Festival VIP', 235000, 'iphone15_pro_natural.jpg')">
+                                Sewa Paket Terpopuler
+                            </button>
+                        </div>
+
+                        <!-- Tier 3 -->
+                        <div class="tier-card">
+                            <div class="tier-header">
+                                <span class="tier-subtitle">PRODUCTION GRADE</span>
+                                <h3 class="tier-name">Cinematic Master</h3>
+                                <div class="tier-price">Rp 310.000 <span>/ hari</span></div>
+                                <p class="tier-desc">Peralatan komplit sutradara dan kreator video 4K ProRes.</p>
+                            </div>
+                            <ul class="tier-features">
+                                <li><i class="fa-solid fa-check"></i> iPhone 15 Pro Max 1TB Titanium</li>
+                                <li><i class="fa-solid fa-check"></i> DJI Osmo Mobile 6 Gimbal</li>
+                                <li><i class="fa-solid fa-check"></i> SanDisk SSD 1TB USB-C 10Gbps</li>
+                                <li><i class="fa-solid fa-check"></i> Dual Wireless Mic Noise Cancelling</li>
+                                <li><i class="fa-solid fa-check"></i> Perekaman Apple Log ProRes</li>
+                                <li><i class="fa-solid fa-check"></i> Prioritas Antar Kurir Express</li>
+                            </ul>
+                            <button class="btn-secondary w-100" onclick="addBundleToCart(102, 'Paket Cinematic Creator 4K', 310000, 'iphone15_pro_blue.jpg')">
+                                Pilih Paket Master
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- VARIANT 04: EDITORIAL HORIZONTAL REEL                   -->
+                <!-- ======================================================= -->
+                <div class="bundle-view" id="bundle-view-4" style="display:none;">
+                    <div class="editorial-reel-container">
+                        <!-- Horizontal Reel Card 1 -->
+                        <div class="editorial-bundle-row">
+                            <div class="reel-media-col">
+                                <img src="iphone15_pro_natural.jpg" alt="Konser VIP Bundle" class="reel-img">
+                                <div class="reel-tag-overlay">GRADE 5 TITANIUM LOADOUT</div>
+                            </div>
+                            <div class="reel-info-col">
+                                <div class="reel-top-meta">
+                                    <span class="reel-pill"><i class="fa-solid fa-award"></i> Konser & Stage Choice</span>
+                                    <span class="badge-savings">Hemat Rp 65.000 / hari</span>
+                                </div>
+                                <h3 class="reel-title">VIP Concert & Live Stage Master</h3>
+                                <p class="reel-desc">Kombinasi sensor 48MP dengan telefoto 5x 120mm dan audio isolator dinamis. Tangkap ekspresi idola di panggung konser dari barisan terjauh dengan stabilisasi tingkat tinggi.</p>
+                                <div class="reel-manifest">
+                                    <div class="manifest-item"><strong>Unit Utama:</strong> iPhone 15 Pro Max 512GB</div>
+                                    <div class="manifest-item"><strong>Aksesoris:</strong> Apple MagSafe 5000mAh, Monopod 1.6m, Strap VIP</div>
+                                    <div class="manifest-item"><strong>Proteksi:</strong> Garansi Kerusakan Tidak Disengaja & Bebas iCloud</div>
+                                </div>
+                                <div class="reel-action-bar">
+                                    <div class="bundle-price-block">
+                                        <span class="bundle-price">Rp 235.000</span>
+                                        <span class="bundle-unit">/ hari</span>
+                                    </div>
+                                    <button class="btn-primary" onclick="addBundleToCart(101, 'VIP Concert & Live Stage Master', 235000, 'iphone15_pro_natural.jpg')">
+                                        <i class="fa-solid fa-calendar-check"></i> Sewa Sekarang
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Horizontal Reel Card 2 -->
+                        <div class="editorial-bundle-row">
+                            <div class="reel-media-col">
+                                <img src="iphone15_pro_blue.jpg" alt="Cinematic Creator Bundle" class="reel-img">
+                                <div class="reel-tag-overlay">COMMERCIAL 4K PRORES</div>
+                            </div>
+                            <div class="reel-info-col">
+                                <div class="reel-top-meta">
+                                    <span class="reel-pill"><i class="fa-solid fa-video"></i> Filmmaking Rig</span>
+                                    <span class="badge-savings">Hemat Rp 95.000 / hari</span>
+                                </div>
+                                <h3 class="reel-title">Pro Cinema 4K 60fps Filmmaker Rig</h3>
+                                <p class="reel-desc">Paket komplit siap shooting komersial. Sambungkan SSD SanDisk 1TB langsung ke port USB-C 10Gbps untuk merekam Apple Log ProRes tanpa hambatan memori internal.</p>
+                                <div class="reel-manifest">
+                                    <div class="manifest-item"><strong>Unit Utama:</strong> iPhone 15 Pro Max 1TB Blue Titanium</div>
+                                    <div class="manifest-item"><strong>Aksesoris:</strong> DJI Osmo Mobile 6, SanDisk SSD 1TB, Wireless Lapel Mic</div>
+                                    <div class="manifest-item"><strong>Proteksi:</strong> Hardcase Tahan Benturan & Support Color Grading</div>
+                                </div>
+                                <div class="reel-action-bar">
+                                    <div class="bundle-price-block">
+                                        <span class="bundle-price">Rp 310.000</span>
+                                        <span class="bundle-unit">/ hari</span>
+                                    </div>
+                                    <button class="btn-primary" onclick="addBundleToCart(102, 'Pro Cinema 4K Filmmaker Rig', 310000, 'iphone15_pro_blue.jpg')">
+                                        <i class="fa-solid fa-calendar-check"></i> Sewa Sekarang
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- VARIANT 05: MODULAR SWISS ACCORDION / LIST             -->
+                <!-- ======================================================= -->
+                <div class="bundle-view" id="bundle-view-5" style="display:none;">
+                    <div class="swiss-accordion-wrapper">
+                        <!-- Accordion Row 1 -->
+                        <div class="swiss-row active" data-bundle="1">
+                            <div class="swiss-row-header" onclick="toggleSwissRow(this)">
+                                <div class="swiss-col-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                                <div class="swiss-col-main">
+                                    <div class="swiss-title-row">
+                                        <h4 class="swiss-title">Paket Konser & Music Fest VIP</h4>
+                                        <span class="swiss-tag">Paling Laris</span>
+                                    </div>
+                                    <div class="swiss-subtext">iPhone 15 Pro Max 512GB + MagSafe Battery + Monopod 1.6m</div>
+                                </div>
+                                <div class="swiss-col-price">
+                                    <div class="swiss-price">Rp 235.000 <span class="swiss-unit">/ hari</span></div>
+                                    <span class="swiss-savings">Hemat Rp 65rb</span>
+                                </div>
+                                <div class="swiss-col-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+                            </div>
+                            <div class="swiss-row-body">
+                                <div class="swiss-body-grid">
+                                    <div>
+                                        <h5>Manifest Perangkat Lengkap:</h5>
+                                        <ul class="swiss-checklist">
+                                            <li><i class="fa-solid fa-circle-check"></i> iPhone 15 Pro Max 512GB (Layar 6.7" OLED 120Hz)</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> Apple MagSafe Battery Pack 5000mAh Magnetic</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> Monopod / Tripod Kompak Standar Venue Konser</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> Kabel Fast Charging Braided Type-C & Adaptor 20W</li>
+                                        </ul>
+                                    </div>
+                                    <div class="swiss-cta-box">
+                                        <div class="swiss-guarantee"><i class="fa-solid fa-shield-halved"></i> Garansi Unit 100% Bebas iCloud & Battery Health 90%+</div>
+                                        <button class="btn-primary w-100" onclick="addBundleToCart(101, 'Paket Konser & Music Fest VIP', 235000, 'iphone15_pro_natural.jpg')">
+                                            <i class="fa-solid fa-cart-plus"></i> Masukkan Tas Sewa
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion Row 2 -->
+                        <div class="swiss-row" data-bundle="2">
+                            <div class="swiss-row-header" onclick="toggleSwissRow(this)">
+                                <div class="swiss-col-icon"><i class="fa-solid fa-video"></i></div>
+                                <div class="swiss-col-main">
+                                    <div class="swiss-title-row">
+                                        <h4 class="swiss-title">Paket Cinematic Creator 4K</h4>
+                                        <span class="swiss-tag">Studio Gear</span>
+                                    </div>
+                                    <div class="swiss-subtext">iPhone 15 Pro Max 1TB + DJI Gimbal 3-Axis + SanDisk SSD 1TB</div>
+                                </div>
+                                <div class="swiss-col-price">
+                                    <div class="swiss-price">Rp 310.000 <span class="swiss-unit">/ hari</span></div>
+                                    <span class="swiss-savings">Hemat Rp 95rb</span>
+                                </div>
+                                <div class="swiss-col-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+                            </div>
+                            <div class="swiss-row-body">
+                                <div class="swiss-body-grid">
+                                    <div>
+                                        <h5>Manifest Perangkat Lengkap:</h5>
+                                        <ul class="swiss-checklist">
+                                            <li><i class="fa-solid fa-circle-check"></i> iPhone 15 Pro Max 1TB Blue Titanium</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> DJI Osmo Mobile 6 Gimbal Stabilizer dengan Tracking</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> SanDisk Extreme Portable SSD 1TB USB-C 10Gbps</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> Dual Wireless Lapel Mic Isolasi Suara</li>
+                                        </ul>
+                                    </div>
+                                    <div class="swiss-cta-box">
+                                        <div class="swiss-guarantee"><i class="fa-solid fa-shield-halved"></i> Support Perekaman Apple Log 4K 60fps Langsung ke SSD</div>
+                                        <button class="btn-primary w-100" onclick="addBundleToCart(102, 'Paket Cinematic Creator 4K', 310000, 'iphone15_pro_blue.jpg')">
+                                            <i class="fa-solid fa-cart-plus"></i> Masukkan Tas Sewa
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion Row 3 -->
+                        <div class="swiss-row" data-bundle="3">
+                            <div class="swiss-row-header" onclick="toggleSwissRow(this)">
+                                <div class="swiss-col-icon"><i class="fa-solid fa-users"></i></div>
+                                <div class="swiss-col-main">
+                                    <div class="swiss-title-row">
+                                        <h4 class="swiss-title">Paket Wedding & Documentation Duo</h4>
+                                        <span class="swiss-tag">2x Device</span>
+                                    </div>
+                                    <div class="swiss-subtext">2x iPhone 15 Pro 256GB + 2x Powerbank 10.000mAh + LED Light</div>
+                                </div>
+                                <div class="swiss-col-price">
+                                    <div class="swiss-price">Rp 380.000 <span class="swiss-unit">/ hari</span></div>
+                                    <span class="swiss-savings">Hemat Rp 120rb</span>
+                                </div>
+                                <div class="swiss-col-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+                            </div>
+                            <div class="swiss-row-body">
+                                <div class="swiss-body-grid">
+                                    <div>
+                                        <h5>Manifest Perangkat Lengkap:</h5>
+                                        <ul class="swiss-checklist">
+                                            <li><i class="fa-solid fa-circle-check"></i> 2 Unit iPhone 15 Pro 256GB White Titanium</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> 2x Anker MagSafe Powerbank 10.000mAh</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> 2x Pocket Bi-Color LED Video Light untuk Malam Hari</li>
+                                            <li><i class="fa-solid fa-circle-check"></i> Hardcase Peli Tahan Benturan dan Debu</li>
+                                        </ul>
+                                    </div>
+                                    <div class="swiss-cta-box">
+                                        <div class="swiss-guarantee"><i class="fa-solid fa-shield-halved"></i> Solusi Terbaik untuk Tim Dokumentasi Resepsi & Seminar</div>
+                                        <button class="btn-primary w-100" onclick="addBundleToCart(103, 'Paket Wedding & Documentation Duo', 380000, 'iphone15_pro_white.jpg')">
+                                            <i class="fa-solid fa-cart-plus"></i> Masukkan Tas Sewa
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -479,10 +1045,14 @@
 
                     <div class="tradein-right">
                         <div class="tradein-calculator-box">
-                            <h4><i class="fa-solid fa-calculator"></i> Kalkulator Paket Sewa iPhone</h4>
+                            <div class="calc-header-badge">
+                                <i class="fa-solid fa-calculator"></i>
+                                <span>SIMULASI BIAYA & DISKON SEWA</span>
+                            </div>
+                            
                             <div class="calc-field">
-                                <label>Pilih Tipe iPhone</label>
-                                <select id="trade-brand-select">
+                                <label for="trade-brand-select"><i class="fa-solid fa-mobile-screen"></i> Pilih Tipe iPhone 15:</label>
+                                <select id="trade-brand-select" class="calc-select-model">
                                     <option value="1">iPhone 15 Pro Max 1TB (Rp 195.000/hari)</option>
                                     <option value="2">iPhone 15 Pro Max 512GB (Rp 185.000/hari)</option>
                                     <option value="3">iPhone 15 Pro Max 256GB (Rp 175.000/hari)</option>
@@ -501,21 +1071,79 @@
                                     <option value="16">iPhone 15 128GB Black (Rp 100.000/hari)</option>
                                 </select>
                             </div>
+
+                            <!-- Duration Quick Preset Pills -->
                             <div class="calc-field">
-                                <label>Durasi Paket Sewa</label>
-                                <select id="trade-condition-select">
-                                    <option value="1">1 Hari (Tarif Harian Normal)</option>
-                                    <option value="3">3 Hari (Diskon Spesial 10%)</option>
-                                    <option value="7">7 Hari / 1 Minggu (Diskon Hemat 20%)</option>
-                                    <option value="14">14 Hari / 2 Minggu (Diskon 30%)</option>
-                                    <option value="30">30 Hari / 1 Bulan (Diskon Maksimal 45%)</option>
+                                <label><i class="fa-solid fa-clock"></i> Pilihan Paket Durasi:</label>
+                                <div class="duration-pills-grid" id="calc-duration-pills">
+                                    <button type="button" class="dur-pill active" data-days="1">
+                                        <span class="dur-name">1 Hari</span>
+                                        <span class="dur-tag">Reguler</span>
+                                    </button>
+                                    <button type="button" class="dur-pill" data-days="3">
+                                        <span class="dur-name">3 Hari</span>
+                                        <span class="dur-tag tag-discount">Diskon 10%</span>
+                                    </button>
+                                    <button type="button" class="dur-pill" data-days="7">
+                                        <span class="dur-name">7 Hari (1 Mgg)</span>
+                                        <span class="dur-tag tag-discount">Hemat 20%</span>
+                                    </button>
+                                    <button type="button" class="dur-pill" data-days="14">
+                                        <span class="dur-name">14 Hari (2 Mgg)</span>
+                                        <span class="dur-tag tag-discount">Hemat 30%</span>
+                                    </button>
+                                    <button type="button" class="dur-pill" data-days="30">
+                                        <span class="dur-name">30 Hari (1 Bln)</span>
+                                        <span class="dur-tag tag-discount">Hemat 45%</span>
+                                    </button>
+                                </div>
+                                <!-- Hidden select for backwards compatibility -->
+                                <select id="trade-condition-select" style="display:none;">
+                                    <option value="1" selected>1 Hari</option>
+                                    <option value="3">3 Hari</option>
+                                    <option value="7">7 Hari</option>
+                                    <option value="14">14 Hari</option>
+                                    <option value="30">30 Hari</option>
                                 </select>
                             </div>
-                            <div class="calc-result">
-                                <span>Total Estimasi Biaya Sewa:</span>
-                                <div class="calc-price-estimate" id="calc-price-estimate">Rp 350.000</div>
-                                <div id="calc-price-note" style="font-size: 0.76rem; color: var(--accent-blue); margin-top: 4px;">Paket Sewa 1 Hari Normal</div>
+
+                            <!-- Interactive Custom Days Slider -->
+                            <div class="calc-slider-box">
+                                <div class="calc-slider-header">
+                                    <span>Atur Durasi Hari Fleksibel:</span>
+                                    <span class="calc-slider-badge" id="calc-slider-val">1 Hari</span>
+                                </div>
+                                <input type="range" id="calc-slider-input" min="1" max="30" value="1" step="1" class="calc-range-slider" aria-label="Slider durasi sewa harian">
+                                <div class="calc-slider-scale">
+                                    <span>1 Hari</span>
+                                    <span>7 Hari</span>
+                                    <span>14 Hari</span>
+                                    <span>30 Hari</span>
+                                </div>
                             </div>
+
+                            <!-- Transparent Price Breakdown Card -->
+                            <div class="calc-breakdown-card">
+                                <div class="calc-breakdown-row">
+                                    <span>Tarif Harian Normal:</span>
+                                    <span id="calc-base-price">Rp 195.000 / hari</span>
+                                </div>
+                                <div class="calc-breakdown-row">
+                                    <span>Subtotal (<span id="calc-days-count">1</span> hari):</span>
+                                    <span id="calc-subtotal-price">Rp 195.000</span>
+                                </div>
+                                <div class="calc-breakdown-row discount-row" id="calc-savings-row" style="display:none;">
+                                    <span>Diskon Paket Hemat:</span>
+                                    <span id="calc-savings-amount" style="color:var(--accent-emerald); font-weight:600;">- Rp 0</span>
+                                </div>
+                                <div class="calc-breakdown-divider"></div>
+                                <div class="calc-result">
+                                    <span>Total Estimasi Biaya Sewa:</span>
+                                    <div class="calc-price-estimate" id="calc-price-estimate">Rp 195.000</div>
+                                    <div id="calc-price-note" class="calc-price-note">Paket Sewa 1 Hari Normal • Tanpa Minimal Durasi</div>
+                                </div>
+                            </div>
+
                             <button class="btn-primary w-100" id="btn-claim-tradein">
                                 <i class="fa-solid fa-calendar-check"></i> Sewa Unit Ini Sekarang
                             </button>
@@ -531,7 +1159,7 @@
                 <div class="section-header text-center" data-scroll-reveal>
                     <span class="section-tag">TESTIMONI PENYEWA</span>
                     <h2 class="section-title">Dipercaya Ribuan Kreator & Event</h2>
-                    <p class="section-subtitle">Pengalaman nyata dari penyewa yang mengandalkan unit iPhone dari Pone Rent untuk konser, produksi video, dan liburan.</p>
+                    <p class="section-subtitle">Pengalaman nyata dari penyewa yang mengandalkan unit iPhone dari ProRent Studio untuk konser, produksi video, dan liburan.</p>
                 </div>
 
                 <div class="reviews-grid">
@@ -586,8 +1214,14 @@
         <div class="container footer-grid">
             <div class="footer-col brand-col">
                 <a href="#home" class="logo">
-                    <span class="logo-mark"><i class="fa-solid fa-mobile-screen-button"></i></span>
-                    Pone<span class="logo-accent">Rent</span>
+                    <span class="logo-mark">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span class="logo-orbit"></span>
+                    </span>
+                    <span class="logo-text">
+                        <span class="logo-prefix">Pro</span><span class="logo-accent">Rent</span>
+                    </span>
+                    <span class="logo-tag"><span class="tag-star">✦</span>Studio</span>
                 </a>
                 <p>Penyedia jasa sewa iPhone 15 Series resmi terlengkap di Indonesia: iPhone 15 Pro Max Titanium, 15 Pro, 15 Plus, dan 15 Standard. Unit 100% original, bebas akun iCloud, battery health prima, tarif fleksibel untuk harian, mingguan, dan bulanan.</p>
                 <div class="social-links">
@@ -629,7 +1263,7 @@
 
         <div class="footer-bottom">
             <div class="container footer-bottom-flex">
-                <p>&copy; 2026 Pone Rent Indonesia. Hak Cipta Dilindungi.</p>
+                <p>&copy; 2026 ProRent Studio Indonesia. Hak Cipta Dilindungi.</p>
                 <div class="footer-legal-links">
                     <a href="#">Kebijakan Privasi</a>
                     <a href="#">Syarat & Ketentuan Sewa</a>
@@ -710,7 +1344,7 @@
         <div class="modal-content studio-modal-content">
             <button class="close-modal" id="close-studio-modal" aria-label="Tutup studio"><i class="fa-solid fa-xmark"></i></button>
             <div class="studio-header">
-                <h3><i class="fa-solid fa-cube"></i> PoneRent 3D Virtual Studio</h3>
+                <h3><i class="fa-solid fa-cube"></i> ProRent 3D Virtual Studio</h3>
                 <p>Eksplorasi struktur bodi Grade 5 Titanium asli, modul kamera presisi, dan kondisi fisik unit sewa 360°.</p>
             </div>
             <div class="studio-body">
@@ -783,13 +1417,30 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkout-start-date"><i class="fa-solid fa-calendar-day"></i> Tanggal Mulai Sewa</label>
+                        <input type="date" id="checkout-start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-duration"><i class="fa-solid fa-clock"></i> Durasi Sewa</label>
+                        <select id="checkout-duration" class="checkout-select-dur">
+                            <option value="1">1 Hari (Reguler)</option>
+                            <option value="3">3 Hari (Diskon 10%)</option>
+                            <option value="7">7 Hari (Hemat 20%)</option>
+                            <option value="14">14 Hari (Hemat 30%)</option>
+                            <option value="30">30 Hari (Hemat 45%)</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="checkout-address">Alamat Pengiriman / Pengambilan Unit</label>
+                    <label for="checkout-address"><i class="fa-solid fa-location-dot"></i> Alamat Pengiriman / Pengambilan Unit</label>
                     <textarea id="checkout-address" required placeholder="Alamat lengkap, nama jalan, gedung/rumah, RT/RW, kota/kabupaten..."></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label>Metode Pembayaran Sewa</label>
+                    <label><i class="fa-solid fa-credit-card"></i> Metode Pembayaran Sewa</label>
                     <div class="payment-method-options">
                         <label class="pay-option">
                             <input type="radio" name="payment-method" value="qris" checked>
@@ -836,7 +1487,7 @@
                 <i class="fa-solid fa-check"></i>
             </div>
             <h2>Pesanan Sewa Berhasil Dikonfirmasi!</h2>
-            <p class="text-muted">Invoice sewa, perjanjian peminjaman, dan jadwal kurir telah dikirimkan ke WhatsApp & Email Anda.</p>
+            <p class="text-muted">Invoice sewa dan jadwal kurir telah disiapkan. Klik tombol WhatsApp di bawah untuk konfirmasi instan dengan Customer Support kami.</p>
             
             <div class="order-receipt-card">
                 <div class="receipt-row">
@@ -848,8 +1499,8 @@
                     <span class="badge-success"><i class="fa-solid fa-check"></i> Unit Siap & Bebas iCloud</span>
                 </div>
                 <div class="receipt-row">
-                    <span>Pengantaran:</span>
-                    <span>Kurir Express Pone Rent (Berasuransi)</span>
+                    <span>Jadwal Pengantaran:</span>
+                    <span id="receipt-delivery-schedule">Kurir Express ProRent Studio (Berasuransi)</span>
                 </div>
                 <div class="receipt-row">
                     <span>Total Transaksi:</span>
@@ -857,9 +1508,14 @@
                 </div>
             </div>
 
-            <button class="btn-primary" id="btn-back-to-shop">
-                Kembali ke Beranda
-            </button>
+            <div class="receipt-actions">
+                <a id="btn-whatsapp-order" href="#" target="_blank" rel="noopener" class="btn-whatsapp w-100">
+                    <i class="fa-brands fa-whatsapp"></i> Konfirmasi Booking via WhatsApp Admin
+                </a>
+                <button class="btn-secondary w-100" id="btn-back-to-shop" style="margin-top: 10px;">
+                    Kembali ke Beranda
+                </button>
+            </div>
         </div>
     </div>
 

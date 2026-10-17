@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PONE STORE - JAVASCRIPT ENGINE (REAL 3D MODEL & MINIMALIST LUXURY)
+   PRORENT STUDIO - JAVASCRIPT ENGINE (REAL 3D MODEL & MINIMALIST LUXURY)
    Featuring Real GLTF iPhone 15 Pro 3D Model, Studio Lighting,
    Refined Sound FX, GSAP ScrollTrigger, Comparison & Checkout
    ========================================================================== */
@@ -253,10 +253,11 @@ const products = [
 // ==========================================
 // 2. STATE MANAGEMENT
 // ==========================================
-let cart = JSON.parse(localStorage.getItem('ponestore_cart')) || [];
-let wishlist = JSON.parse(localStorage.getItem('ponestore_wishlist')) || [];
+let cart = JSON.parse(localStorage.getItem('prorent_cart')) || JSON.parse(localStorage.getItem('ponestore_cart')) || [];
+let wishlist = JSON.parse(localStorage.getItem('prorent_wishlist')) || JSON.parse(localStorage.getItem('ponestore_wishlist')) || [];
 let activeCategory = 'All';
 let activeBrand = 'All';
+let activeStorage = 'All';
 let searchQuery = '';
 let currentSort = 'featured';
 let appliedCoupon = null;
@@ -274,8 +275,8 @@ let hero3D = {
     isDragging: false,
     prevPointer: { x: 0, y: 0 },
     autoSpin: true,
-    targetRotation: { x: 0.35, y: -0.58 }, // Default to Isometric Studio perspective
-    currentRotation: { x: 0.35, y: -0.58 },
+    targetRotation: { x: 0.16, y: -0.42 }, // Iconic Studio 3/4 Perspective: OLED screen & titanium frame
+    currentRotation: { x: 0.16, y: -0.42 },
     currentColor: "#8a857b",
     preloadedWallpapers: {}
 };
@@ -291,8 +292,8 @@ let modal3D = {
     isDragging: false,
     prevPointer: { x: 0, y: 0 },
     autoSpin: true,
-    targetRotation: { x: 0.35, y: -0.58 },
-    currentRotation: { x: 0.35, y: -0.58 },
+    targetRotation: { x: 0.16, y: -0.42 },
+    currentRotation: { x: 0.16, y: -0.42 },
     currentColor: "#8a857b",
     isAnimating: false,
     clock: null
@@ -850,19 +851,44 @@ function createIphone15GLTFInstance(targetColor = "#8a857b") {
 }
 
 // ==========================================
-// 6. INITIALIZE HERO 3D SCENE
+// 6. INITIALIZE HERO 3D SCENE (SPACIOUS STUDIO FRAMING)
 // ==========================================
+function getOptimalHeroCameraZ(width, height) {
+    if (!width || !height) return 11.0;
+    const aspect = width / height;
+    
+    // Target vertical fraction of phone (height: 4.35) in viewport
+    // Generous breathing room: ~56% on desktop, ~58% on tablet, ~62% on mobile
+    let targetVerticalRatio = 0.56;
+    if (window.innerWidth <= 480) {
+        targetVerticalRatio = 0.62;
+    } else if (window.innerWidth <= 768) {
+        targetVerticalRatio = 0.59;
+    } else if (window.innerWidth <= 1024) {
+        targetVerticalRatio = 0.57;
+    }
+    
+    const fovRad = THREE.MathUtils.degToRad(38 / 2); // FOV 38deg
+    const zFromHeight = (4.35 / targetVerticalRatio) / (2 * Math.tan(fovRad));
+    
+    // Also guarantee comfortable horizontal clearance for phone width (2.15)
+    const targetHorizontalRatio = 0.65;
+    const zFromWidth = (2.15 / targetHorizontalRatio) / (2 * Math.tan(fovRad) * aspect);
+    
+    return Math.max(zFromHeight, zFromWidth);
+}
+
 function initHero3D() {
     const container = document.getElementById('hero-3d-canvas');
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
     const width = rect.width > 0 ? rect.width : (container.clientWidth || Math.min(window.innerWidth - 32, 500));
-    const height = rect.height > 0 ? rect.height : (container.clientHeight || (window.innerWidth < 768 ? 310 : 560));
+    const height = rect.height > 0 ? rect.height : (container.clientHeight || (window.innerWidth < 768 ? 400 : 600));
 
     hero3D.scene = new THREE.Scene();
     hero3D.camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    hero3D.camera.position.set(0, 0, (window.innerWidth < 768 ? 8.6 : 7.8));
+    hero3D.camera.position.set(0, 0, getOptimalHeroCameraZ(width, height));
 
     hero3D.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     hero3D.renderer.setSize(width, height);
@@ -1014,13 +1040,48 @@ function initHero3D() {
         });
     });
 
-    // Previewed.app Studio Angle Presets
+    // Apple Studio Angle Presets
     const studioAngles = {
-        isometric: { x: 0.35, y: -0.58 }, // Signature Previewed.app isometric studio angle
-        front: { x: 0, y: 0 },             // Frontal studio display
-        dynamic: { x: -0.22, y: 0.52 },    // Dynamic 3D perspective
-        back: { x: 0.08, y: Math.PI }      // Titanium backplate & camera system
+        isometric: { x: 0.16, y: -0.42 }, // Iconic studio 3/4 angle (Screen + Titanium frame)
+        front: { x: 0, y: 0 },             // Frontal display (Super Retina XDR & Dynamic Island)
+        dynamic: { x: 0.22, y: -0.75 },    // Dynamic perspective tilt
+        back: { x: 0.14, y: Math.PI }      // Titanium backplate & 48MP Photonic Camera System
     };
+
+    // Interactive Feature Markers - Click to Inspect Component in 3D
+    const tagCamera = document.getElementById('tag-camera');
+    const tagChassis = document.getElementById('tag-chassis');
+    const tagScreen = document.getElementById('tag-screen');
+
+    tagCamera?.addEventListener('click', () => {
+        hero3D.autoSpin = false;
+        document.getElementById('toggle-spin-btn')?.classList.remove('active');
+        document.querySelectorAll('#hero-angle-presets .preset-btn').forEach(b => b.classList.toggle('active', b.dataset.angle === 'back'));
+        hero3D.currentAngle = 'back';
+        gsap.to(hero3D.targetRotation, { x: 0.14, y: Math.PI, duration: 0.9, ease: "power2.out" });
+        audioFX.playClick();
+        showToast("Inspeksi Sistem Kamera 48MP & 5x Tetraprism Zoom");
+    });
+
+    tagChassis?.addEventListener('click', () => {
+        hero3D.autoSpin = false;
+        document.getElementById('toggle-spin-btn')?.classList.remove('active');
+        document.querySelectorAll('#hero-angle-presets .preset-btn').forEach(b => b.classList.toggle('active', b.dataset.angle === 'isometric'));
+        hero3D.currentAngle = 'isometric';
+        gsap.to(hero3D.targetRotation, { x: 0.16, y: -0.55, duration: 0.9, ease: "power2.out" });
+        audioFX.playClick();
+        showToast("Inspeksi Bingkai Bodi Grade 5 Aerospace Titanium");
+    });
+
+    tagScreen?.addEventListener('click', () => {
+        hero3D.autoSpin = false;
+        document.getElementById('toggle-spin-btn')?.classList.remove('active');
+        document.querySelectorAll('#hero-angle-presets .preset-btn').forEach(b => b.classList.toggle('active', b.dataset.angle === 'front'));
+        hero3D.currentAngle = 'front';
+        gsap.to(hero3D.targetRotation, { x: 0, y: 0, duration: 0.9, ease: "power2.out" });
+        audioFX.playClick();
+        showToast("Inspeksi Layar Super Retina XDR OLED ProMotion 120Hz");
+    });
 
     document.querySelectorAll('#hero-angle-presets .preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1046,13 +1107,17 @@ function initHero3D() {
         });
     });
 
-    // Auto Spin Toggle
+    // Auto Spin / Studio Sway Toggle
     const spinBtn = document.getElementById('toggle-spin-btn');
     if (spinBtn) {
         spinBtn.addEventListener('click', () => {
             hero3D.autoSpin = !hero3D.autoSpin;
             spinBtn.classList.toggle('active', hero3D.autoSpin);
             audioFX.playClick();
+            if (hero3D.autoSpin) {
+                const base = studioAngles[hero3D.currentAngle] || studioAngles.isometric;
+                hero3D.targetRotation = { x: base.x, y: base.y };
+            }
         });
     }
 
@@ -1060,7 +1125,9 @@ function initHero3D() {
     const resetBtn = document.getElementById('reset-view-btn');
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
-            const base = studioAngles[hero3D.currentAngle] || studioAngles.isometric;
+            hero3D.currentAngle = 'isometric';
+            document.querySelectorAll('#hero-angle-presets .preset-btn').forEach(b => b.classList.toggle('active', b.dataset.angle === 'isometric'));
+            const base = studioAngles.isometric;
             hero3D.targetRotation = { x: base.x, y: base.y };
             if (hero3D.phoneGroup) hero3D.phoneGroup.position.set(0, 0, 0);
             audioFX.playClick();
@@ -1077,7 +1144,7 @@ function initHero3D() {
         const elapsedTime = clock.getElapsedTime();
 
         if (hero3D.phoneGroup) {
-            // Calm, subtle levitation
+            // Calm, subtle studio levitation
             hero3D.phoneGroup.position.y = Math.sin(elapsedTime * 1.2) * 0.05;
 
             // Synchronize ground contact shadow with levitation
@@ -1090,16 +1157,20 @@ function initHero3D() {
                 shadowEl.style.opacity = Math.max(0.35, Math.min(1, shadowOpacity));
             }
 
+            // Damping lerp towards target rotation
+            hero3D.currentRotation.x += (hero3D.targetRotation.x - hero3D.currentRotation.x) * 0.08;
+            hero3D.currentRotation.y += (hero3D.targetRotation.y - hero3D.currentRotation.y) * 0.08;
+
+            // Calm studio floating sway when autoSpin is enabled and user is not dragging
             if (hero3D.autoSpin && !hero3D.isDragging) {
-                hero3D.targetRotation.y += 0.004;
+                const swayY = Math.sin(elapsedTime * 0.75) * 0.16;
+                const swayX = Math.cos(elapsedTime * 0.5) * 0.03;
+                hero3D.phoneGroup.rotation.x = hero3D.currentRotation.x + swayX;
+                hero3D.phoneGroup.rotation.y = hero3D.currentRotation.y + swayY;
+            } else {
+                hero3D.phoneGroup.rotation.x = hero3D.currentRotation.x;
+                hero3D.phoneGroup.rotation.y = hero3D.currentRotation.y;
             }
-
-            // Damping lerp
-            hero3D.currentRotation.x += (hero3D.targetRotation.x - hero3D.currentRotation.x) * 0.06;
-            hero3D.currentRotation.y += (hero3D.targetRotation.y - hero3D.currentRotation.y) * 0.06;
-
-            hero3D.phoneGroup.rotation.x = hero3D.currentRotation.x;
-            hero3D.phoneGroup.rotation.y = hero3D.currentRotation.y;
         }
 
         hero3D.renderer.render(hero3D.scene, hero3D.camera);
@@ -1147,7 +1218,7 @@ function onHeroResize() {
 
     if (width > 0 && height > 0) {
         hero3D.camera.aspect = width / height;
-        hero3D.camera.position.z = (window.innerWidth < 768 ? 8.6 : 7.8);
+        hero3D.camera.position.z = getOptimalHeroCameraZ(width, height);
         hero3D.camera.updateProjectionMatrix();
         hero3D.renderer.setSize(width, height);
     }
@@ -1239,29 +1310,48 @@ function initScrollAnimations() {
             end: "bottom top",
             scrub: 1.2,
             onUpdate: (self) => {
-                if (hero3D.phoneGroup) {
-                    hero3D.phoneGroup.rotation.y = -0.35 + self.progress * Math.PI * 0.7;
+                if (!hero3D.isDragging && hero3D.phoneGroup) {
+                    const base = (typeof studioAngles !== 'undefined' && studioAngles[hero3D.currentAngle]) ? studioAngles[hero3D.currentAngle] : { x: 0.16, y: -0.42 };
+                    hero3D.targetRotation.y = base.y + self.progress * 0.55;
                 }
             }
         });
 
         gsap.utils.toArray('[data-scroll-reveal]').forEach((el) => {
-            gsap.fromTo(el,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 88%",
-                        toggleActions: "play none none none"
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.95) {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            } else {
+                gsap.fromTo(el,
+                    { opacity: 0, y: 28 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.65,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 92%",
+                            toggleActions: "play none none none",
+                            once: true
+                        }
                     }
-                }
-            );
+                );
+            }
         });
     }
+
+    // Bulletproof fallback observer: ensures elements are never stuck invisible
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'none';
+            }
+        });
+    }, { rootMargin: '60px' });
+    document.querySelectorAll('[data-scroll-reveal]').forEach(el => revealObserver.observe(el));
 
     initStatsCounter();
 }
@@ -1270,46 +1360,52 @@ function initStatsCounter() {
     const counterCards = document.querySelectorAll('.stat-counter-card');
     let hasAnimated = false;
 
+    function runCounters() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+        counterCards.forEach(card => {
+            const numEl = card.querySelector('.stat-number');
+            if (!numEl) return;
+            const target = parseFloat(numEl.dataset.target);
+            const isDecimal = numEl.dataset.decimal === 'true';
+
+            let start = 0;
+            const duration = 1600;
+            const startTime = performance.now();
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentVal = start + (target - start) * easeOut;
+
+                numEl.innerText = isDecimal ? currentVal.toFixed(1) : Math.floor(currentVal).toLocaleString('id-ID');
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    numEl.innerText = isDecimal ? target.toFixed(1) : target.toLocaleString('id-ID');
+                }
+            }
+            requestAnimationFrame(updateNumber);
+        });
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
-                counterCards.forEach(card => {
-                    const numEl = card.querySelector('.stat-number');
-                    const target = parseFloat(numEl.dataset.target);
-                    const isDecimal = numEl.dataset.decimal === 'true';
-
-                    let start = 0;
-                    const duration = 1800;
-                    const startTime = performance.now();
-
-                    function updateNumber(currentTime) {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const easeOut = 1 - Math.pow(1 - progress, 3);
-                        const currentVal = start + (target - start) * easeOut;
-
-                        numEl.innerText = isDecimal ? currentVal.toFixed(1) : Math.floor(currentVal).toLocaleString('id-ID');
-
-                        if (progress < 1) {
-                            requestAnimationFrame(updateNumber);
-                        } else {
-                            numEl.innerText = isDecimal ? target.toFixed(1) : target.toLocaleString('id-ID');
-                        }
-                    }
-
-                    requestAnimationFrame(updateNumber);
-                });
+            if (entry.isIntersecting) {
+                runCounters();
             }
         });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.1 });
 
-    const statsSection = document.querySelector('.stats-counter-section');
-    if (statsSection) observer.observe(statsSection);
+    const statsSec = document.querySelector('.stats-counter-section');
+    if (statsSec) observer.observe(statsSec);
+    counterCards.forEach(c => observer.observe(c));
 }
 
 function updateActiveNavSection() {
-    const sections = ['home', 'highlights', 'products', 'compare', 'tradein', 'reviews'];
+    const sections = ['home', 'highlights', 'products', 'bundles', 'compare', 'tradein', 'reviews'];
     const scrollPos = window.scrollY + 180;
 
     for (const id of sections) {
@@ -1330,34 +1426,16 @@ function updateActiveNavSection() {
 // ==========================================
 // 10. PRODUCT CATALOG & FILTERS
 // ==========================================
-function renderBrandFilters() {
-    const brandContainer = document.getElementById('brand-filters');
-    if (!brandContainer) return;
+function initStorageFilters() {
+    const storageContainer = document.getElementById('storage-filters');
+    if (!storageContainer) return;
 
-    const seriesList = [
-        { key: 'All', label: 'Semua Varian' },
-        { key: 'iPhone 15 Pro Max', label: '15 Pro Max' },
-        { key: 'iPhone 15 Pro', label: '15 Pro' },
-        { key: 'iPhone 15 Plus', label: '15 Plus' },
-        { key: 'iPhone 15', label: '15 Standard' }
-    ];
-    brandContainer.innerHTML = seriesList.map(ser => `
-        <button class="brand-chip ${activeBrand === ser.key ? 'active' : ''}" data-brand="${ser.key}">
-            ${ser.label}
-        </button>
-    `).join('');
-
-    brandContainer.querySelectorAll('.brand-chip').forEach(btn => {
+    storageContainer.querySelectorAll('.storage-chip').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            activeBrand = e.target.dataset.brand;
-            if (activeBrand === 'iPhone 15 Pro Max') activeCategory = 'ProMax';
-            else if (activeBrand === 'iPhone 15 Pro') activeCategory = 'Pro';
-            else if (activeBrand === 'iPhone 15 Plus') activeCategory = 'Plus';
-            else if (activeBrand === 'iPhone 15') activeCategory = 'Standard';
-            else activeCategory = 'All';
-
-            document.querySelectorAll('.cat-tab').forEach(t => t.classList.toggle('active', t.dataset.category === activeCategory));
-            renderBrandFilters();
+            storageContainer.querySelectorAll('.storage-chip').forEach(b => b.classList.remove('active'));
+            const target = e.currentTarget;
+            target.classList.add('active');
+            activeStorage = target.dataset.storage || 'All';
             renderProducts();
             audioFX.playClick();
         });
@@ -1367,6 +1445,7 @@ function renderBrandFilters() {
 function renderProducts() {
     const grid = document.getElementById('product-grid');
     const emptyState = document.getElementById('empty-state');
+    const countPill = document.getElementById('catalog-count-pill');
     if (!grid) return;
 
     let filtered = products.filter(p => {
@@ -1375,9 +1454,10 @@ function renderProducts() {
             matchCat = p.category === activeCategory;
         }
 
-        let matchBrand = true;
-        if (activeBrand !== 'All') {
-            matchBrand = p.series === activeBrand;
+        let matchStorage = true;
+        if (activeStorage !== 'All') {
+            matchStorage = (p.specs && p.specs.storage && p.specs.storage.includes(activeStorage)) ||
+                           p.name.includes(activeStorage);
         }
 
         const query = searchQuery.toLowerCase().trim();
@@ -1386,7 +1466,7 @@ function renderProducts() {
             p.series.toLowerCase().includes(query) ||
             p.desc.toLowerCase().includes(query);
 
-        return matchCat && matchBrand && matchSearch;
+        return matchCat && matchStorage && matchSearch;
     });
 
     if (currentSort === 'price-low') {
@@ -1397,12 +1477,16 @@ function renderProducts() {
         filtered.sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    if (countPill) {
+        countPill.innerText = `Menampilkan ${filtered.length} unit iPhone`;
+    }
+
     if (filtered.length === 0) {
         grid.innerHTML = '';
-        emptyState.style.display = 'block';
+        if (emptyState) emptyState.style.display = 'block';
         return;
     } else {
-        emptyState.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'none';
     }
 
     grid.innerHTML = filtered.map(p => {
@@ -1434,7 +1518,10 @@ function renderProducts() {
                     </div>
 
                     <div class="product-footer-row">
-                        <div class="product-price">${formatRentalPrice(p.price)}</div>
+                        <div class="product-price-block">
+                            <span class="price-val">${formatPrice(p.price)}</span>
+                            <span class="price-unit">/ hari</span>
+                        </div>
                         <div class="card-actions-row">
                             <button class="btn-card-3d" title="Buka Studio 3D ${p.name}" onclick="event.stopPropagation(); openStudio3DModal(${p.id})">
                                 <i class="fa-solid fa-cube"></i>
@@ -1455,14 +1542,8 @@ function renderProducts() {
 document.querySelectorAll('.cat-tab').forEach(tab => {
     tab.addEventListener('click', (e) => {
         document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-        e.target.classList.add('active');
-        activeCategory = e.target.dataset.category;
-        if (activeCategory === 'ProMax') activeBrand = 'iPhone 15 Pro Max';
-        else if (activeCategory === 'Pro') activeBrand = 'iPhone 15 Pro';
-        else if (activeCategory === 'Plus') activeBrand = 'iPhone 15 Plus';
-        else if (activeCategory === 'Standard') activeBrand = 'iPhone 15';
-        else activeBrand = 'All';
-        renderBrandFilters();
+        e.currentTarget.classList.add('active');
+        activeCategory = e.currentTarget.dataset.category || 'All';
         renderProducts();
         audioFX.playClick();
     });
@@ -1473,12 +1554,12 @@ const clearSearchBtn = document.getElementById('clear-search-btn');
 
 searchInput?.addEventListener('input', (e) => {
     searchQuery = e.target.value;
-    clearSearchBtn.style.display = searchQuery ? 'block' : 'none';
+    if (clearSearchBtn) clearSearchBtn.style.display = searchQuery ? 'block' : 'none';
     renderProducts();
 });
 
 clearSearchBtn?.addEventListener('click', () => {
-    searchInput.value = '';
+    if (searchInput) searchInput.value = '';
     searchQuery = '';
     clearSearchBtn.style.display = 'none';
     renderProducts();
@@ -1493,12 +1574,12 @@ document.getElementById('sort-select')?.addEventListener('change', (e) => {
 
 document.getElementById('btn-reset-filters')?.addEventListener('click', () => {
     activeCategory = 'All';
-    activeBrand = 'All';
+    activeStorage = 'All';
     searchQuery = '';
     if (searchInput) searchInput.value = '';
     if (clearSearchBtn) clearSearchBtn.style.display = 'none';
     document.querySelectorAll('.cat-tab').forEach(t => t.classList.toggle('active', t.dataset.category === 'All'));
-    renderBrandFilters();
+    document.querySelectorAll('.storage-chip').forEach(s => s.classList.toggle('active', s.dataset.storage === 'All'));
     renderProducts();
     audioFX.playClick();
 });
@@ -1519,7 +1600,7 @@ function toggleWishlist(productId) {
         audioFX.playChime();
     }
 
-    localStorage.setItem('ponestore_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('prorent_wishlist', JSON.stringify(wishlist));
     updateWishlistUI();
     renderProducts();
 }
@@ -1606,7 +1687,7 @@ function removeFromCart(productId) {
 }
 
 function saveCart() {
-    localStorage.setItem('ponestore_cart', JSON.stringify(cart));
+    localStorage.setItem('prorent_cart', JSON.stringify(cart));
 }
 
 function updateCartUI() {
@@ -1665,7 +1746,7 @@ function updateCartUI() {
     subtotalEl.innerText = formatPrice(subtotal);
 
     let discount = 0;
-    if (appliedCoupon === 'RENT2026') {
+    if (appliedCoupon === 'RENT2026' || appliedCoupon === 'PRO2026') {
         discount = 50000;
     } else if (appliedCoupon === 'HEMAT100') {
         discount = 100000;
@@ -1690,7 +1771,7 @@ document.getElementById('btn-apply-coupon')?.addEventListener('click', () => {
     const feedback = document.getElementById('coupon-feedback');
     const code = input.value.trim().toUpperCase();
 
-    if (code === 'RENT2026' || code === 'HEMAT100' || code === 'PONE2026') {
+    if (code === 'RENT2026' || code === 'PRO2026' || code === 'HEMAT100' || code === 'PONE2026') {
         appliedCoupon = code;
         feedback.className = "coupon-feedback success";
         feedback.innerText = `Kupon ${code} berhasil diterapkan!`;
@@ -2101,6 +2182,7 @@ function initStudio3DModal() {
 
     if (modal3D.renderer) {
         modal3D.camera.aspect = width / height;
+        modal3D.camera.position.z = (window.innerWidth < 768 ? 9.8 : 10.2);
         modal3D.camera.updateProjectionMatrix();
         modal3D.renderer.setSize(width, height);
         if (modal3D.instance) {
@@ -2112,7 +2194,7 @@ function initStudio3DModal() {
 
     modal3D.scene = new THREE.Scene();
     modal3D.camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    modal3D.camera.position.set(0, 0, (window.innerWidth < 768 ? 8.4 : 7.8));
+    modal3D.camera.position.set(0, 0, (window.innerWidth < 768 ? 9.8 : 10.2));
 
     modal3D.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     modal3D.renderer.setSize(width, height);
@@ -2401,58 +2483,304 @@ function initComparisonTool() {
 }
 
 // ==========================================
+// 14b. EXCLUSIVE BUNDLES & 5 ADD-UI VARIATIONS
+// ==========================================
+const bundleKits = {
+    '1': {
+        id: 101,
+        name: 'Paket Konser & Festival VIP',
+        price: 235000,
+        img: 'iphone15_pro_natural.jpg',
+        subtitle: 'Optimalisasi Lensa 5x Telefoto & Daya Non-Stop',
+        desc: 'Paket terlengkap untuk konser musik akbar. Menghadirkan iPhone 15 Pro Max 512GB Natural Titanium dengan 5x Optical Telephoto untuk memotret aksi panggung dengan jernih, didukung Apple MagSafe Battery magnetic agar baterai tidak habis saat merekam video 4K.',
+        savings: 'Hemat Rp 65.000 / hari',
+        checklist: [
+            'iPhone 15 Pro Max 512GB Natural Titanium (Grade 5 Aerospace)',
+            'Apple MagSafe Battery Pack 5000mAh Snap-on Magnetic',
+            'Monopod / Compact Selfie Tripod 1.6m Standar Venue Konser',
+            'Lanyard Anti-Jatuh VIP & Pelindung Sudut Armor Case',
+            '20W Fast Charger & Kabel Braided Type-C Original'
+        ]
+    },
+    '2': {
+        id: 102,
+        name: 'Paket Cinematic Creator 4K',
+        price: 310000,
+        img: 'iphone15_pro_blue.jpg',
+        subtitle: 'Rig Produksi Komersial & Perekaman Log ProRes',
+        desc: 'Rig lengkap untuk sutradara indie, video creator YouTube, dan agency. Merekam format Apple Log ProRes 4K 60fps langsung ke SanDisk SSD eksternal tanpa membebani memori internal, dengan gimbal 3-axis super mulus.',
+        savings: 'Hemat Rp 95.000 / hari',
+        checklist: [
+            'iPhone 15 Pro Max 1TB Blue Titanium (Support ProRes Log)',
+            'DJI Osmo Mobile 6 Gimbal Stabilizer dengan ActiveTrack 6.0',
+            'SanDisk Extreme Portable SSD 1TB USB-C 10Gbps Kecepatan Tinggi',
+            'Dual Wireless Lavalier Microphone dengan Noise Cancelling Studio',
+            'Hardcase Peli Anti-Benturan Tahan Debu & Air'
+        ]
+    },
+    '3': {
+        id: 103,
+        name: 'Paket Wedding & Event Duo',
+        price: 380000,
+        img: 'iphone15_pro_white.jpg',
+        subtitle: 'Dua Unit Siap Tangkap Momen Hari Bahagia',
+        desc: 'Solusi dokumentasi ganda untuk wedding organizer, bridesmaid, atau tim event. Dua unit iPhone 15 Pro siap pakai dengan pencahayaan LED saku untuk foto resepsi malam hari yang memukau.',
+        savings: 'Hemat Rp 120.000 / hari',
+        checklist: [
+            '2 Unit iPhone 15 Pro 256GB White Titanium Kompak',
+            '2x Anker MagSafe Powerbank 10.000mAh Dual Output',
+            '2x Pocket Bi-Color LED Video Light dengan Diffuser',
+            'Layanan Backup Foto Otomatis ke Google Drive Cloud',
+            'Prioritas Antar-Jemput Kurir Express di Hari H'
+        ]
+    },
+    '4': {
+        id: 104,
+        name: 'Paket Holiday & Traveling',
+        price: 185000,
+        img: 'iphone15_pink.jpg',
+        subtitle: 'Daya Tahan Baterai Monster & Perlindungan Outdoor',
+        desc: 'Dirancang untuk petualangan liburan santai ke pantai, pegunungan, maupun luar negeri. iPhone 15 Plus memiliki baterai terawet hingga 29 jam pemutaran video non-stop.',
+        savings: 'Hemat Rp 45.000 / hari',
+        checklist: [
+            'iPhone 15 Plus 256GB Layar Besar 6.7 inci',
+            'Waterproof Underwater Pouch Sertifikasi IPX8',
+            'Universal Worldwide Travel Adapter (US/UK/EU/AU)',
+            'MagSafe Car Air Vent Mount & Wireless Fast Charger',
+            'Unit Bebas iCloud & Roaming Siap Pakai di Luar Negeri'
+        ]
+    }
+};
+
+function initBundleVariants() {
+    const pills = document.querySelectorAll('.variant-pill');
+    if (!pills.length) return;
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            pills.forEach(p => {
+                p.classList.remove('active');
+                p.setAttribute('aria-selected', 'false');
+            });
+            const target = e.currentTarget;
+            target.classList.add('active');
+            target.setAttribute('aria-selected', 'true');
+
+            const variantNum = target.dataset.variant || '1';
+            
+            // Hide all views
+            for (let i = 1; i <= 5; i++) {
+                const view = document.getElementById(`bundle-view-${i}`);
+                if (view) view.style.display = 'none';
+            }
+
+            // Show selected view
+            const activeView = document.getElementById(`bundle-view-${variantNum}`);
+            if (activeView) {
+                activeView.style.display = 'block';
+                activeView.style.animation = 'none';
+                void activeView.offsetHeight; // trigger reflow
+                activeView.style.animation = 'fadeInView 0.35s ease';
+            }
+
+            audioFX.playClick();
+        });
+    });
+}
+
+function initTabbedStage() {
+    const stageTabs = document.querySelectorAll('.stage-tab');
+    const stageContent = document.getElementById('stage-body-content');
+    if (!stageTabs.length || !stageContent) return;
+
+    function renderStage(key) {
+        const kit = bundleKits[key] || bundleKits['1'];
+        stageContent.innerHTML = `
+            <div class="stage-device-panel">
+                <img src="${kit.img}" alt="${kit.name}" class="stage-device-img">
+                <div style="margin-top:16px;">
+                    <span class="badge-savings">${kit.savings}</span>
+                </div>
+            </div>
+            <div class="stage-manifest-panel">
+                <span class="tier-subtitle">${kit.subtitle}</span>
+                <h3>${kit.name}</h3>
+                <p>${kit.desc}</p>
+                <ul class="stage-checklist">
+                    ${kit.checklist.map(item => `<li><i class="fa-solid fa-circle-check"></i> ${item}</li>`).join('')}
+                </ul>
+                <div class="bundle-pricing-row">
+                    <div class="bundle-price-block">
+                        <span class="bundle-price">${formatPrice(kit.price)}</span>
+                        <span class="bundle-unit">/ hari</span>
+                    </div>
+                    <button class="btn-primary" onclick="addBundleToCart(${kit.id}, '${kit.name}', ${kit.price}, '${kit.img}')">
+                        <i class="fa-solid fa-calendar-check"></i> Sewa Paket Ini
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    stageTabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            stageTabs.forEach(t => t.classList.remove('active'));
+            const target = e.currentTarget;
+            target.classList.add('active');
+            const stageKey = target.dataset.stage || '1';
+            renderStage(stageKey);
+            audioFX.playClick();
+        });
+    });
+
+    renderStage('1');
+}
+
+function toggleSwissRow(headerEl) {
+    const parentRow = headerEl.closest('.swiss-row');
+    if (!parentRow) return;
+    const isActive = parentRow.classList.contains('active');
+    
+    // Close other rows for cleaner view
+    document.querySelectorAll('.swiss-row').forEach(row => {
+        if (row !== parentRow) row.classList.remove('active');
+    });
+
+    parentRow.classList.toggle('active', !isActive);
+    audioFX.playClick();
+}
+
+function addBundleToCart(bundleId, bundleName, bundlePrice, bundleImg) {
+    const existing = cart.find(i => i.id === bundleId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            id: bundleId,
+            name: bundleName,
+            price: bundlePrice,
+            img: bundleImg,
+            quantity: 1
+        });
+    }
+
+    saveCart();
+    updateCartUI();
+    audioFX.playChime();
+    showToast(`${bundleName} berhasil ditambahkan ke daftar sewa!`);
+}
+
+function toggleGearPill(el) {
+    el.classList.toggle('active');
+    const icon = el.querySelector('i');
+    if (icon) {
+        if (el.classList.contains('active')) {
+            icon.className = 'fa-solid fa-check';
+        } else {
+            icon.className = 'fa-solid fa-plus';
+        }
+    }
+    if (window.audioFX && audioFX.playClick) {
+        audioFX.playClick();
+    }
+}
+
+// ==========================================
 // 15. RENTAL DURATION & PACKAGE CALCULATOR
 // ==========================================
 function initTradeInCalculator() {
     const brandSelect = document.getElementById('trade-brand-select');
-    const conditionSelect = document.getElementById('trade-condition-select');
+    const durPills = document.querySelectorAll('.dur-pill');
+    const sliderInput = document.getElementById('calc-slider-input');
+    const sliderBadge = document.getElementById('slider-val-badge');
     const priceDisplay = document.getElementById('calc-price-estimate');
     const noteDisplay = document.getElementById('calc-price-note');
+    const baseRateEl = document.getElementById('breakdown-base-rate');
+    const daysEl = document.getElementById('breakdown-days');
+    const discountRow = document.getElementById('breakdown-discount-row');
+    const discountEl = document.getElementById('breakdown-discount');
+    const totalEl = document.getElementById('breakdown-total');
     const claimBtn = document.getElementById('btn-claim-tradein');
 
-    if (!brandSelect || !conditionSelect || !priceDisplay) return;
+    if (!brandSelect || !priceDisplay) return;
 
     // Populate all iPhone models
     brandSelect.innerHTML = products.map(p => `
         <option value="${p.id}">${p.name} (${formatRentalPrice(p.price)})</option>
     `).join('');
 
-    const durationPackages = {
-        '1': { days: 1, discount: 0, label: 'Paket Sewa Harian Reguler' },
-        '3': { days: 3, discount: 0.10, label: 'Paket Hemat 3 Hari (Diskon 10%)' },
-        '7': { days: 7, discount: 0.20, label: 'Paket Mingguan 7 Hari (Hemat 20%)' },
-        '14': { days: 14, discount: 0.30, label: 'Paket 2 Minggu 14 Hari (Hemat 30%)' },
-        '30': { days: 30, discount: 0.45, label: 'Paket Bulanan 30 Hari (Hemat Maksimal 45%)' }
-    };
-
     function recalculate() {
         const prodId = parseInt(brandSelect.value) || 1;
         const phone = products.find(p => p.id === prodId) || products[0];
-        const durKey = conditionSelect.value || '1';
-        const pkg = durationPackages[durKey] || durationPackages['1'];
+        const days = parseInt(sliderInput ? sliderInput.value : 1) || 1;
 
-        const rawTotal = phone.price * pkg.days;
-        const finalTotal = Math.round(rawTotal * (1 - pkg.discount));
+        let discountPct = 0;
+        let tierLabel = 'Sewa Reguler Harian';
+        if (days >= 30) {
+            discountPct = 0.45;
+            tierLabel = 'Paket Bulanan (Hemat 45%)';
+        } else if (days >= 14) {
+            discountPct = 0.30;
+            tierLabel = 'Paket 2 Minggu (Hemat 30%)';
+        } else if (days >= 7) {
+            discountPct = 0.20;
+            tierLabel = 'Paket Mingguan (Hemat 20%)';
+        } else if (days >= 3) {
+            discountPct = 0.10;
+            tierLabel = 'Paket Hemat (Diskon 10%)';
+        }
 
-        priceDisplay.innerText = formatPrice(finalTotal);
-        if (noteDisplay) {
-            if (pkg.discount > 0) {
-                const savings = rawTotal - finalTotal;
-                noteDisplay.innerText = `${pkg.label} • Anda Hemat ${formatPrice(savings)}`;
-            } else {
-                noteDisplay.innerText = `${pkg.label} • Tanpa Minimal Durasi`;
-            }
+        const rawTotal = phone.price * days;
+        const discountVal = Math.round(rawTotal * discountPct);
+        const finalTotal = rawTotal - discountVal;
+
+        if (priceDisplay) priceDisplay.innerText = formatPrice(finalTotal);
+        if (baseRateEl) baseRateEl.innerText = `${formatPrice(phone.price)} / hari`;
+        if (daysEl) daysEl.innerText = `${days} Hari`;
+        if (totalEl) totalEl.innerText = formatPrice(finalTotal);
+
+        if (discountVal > 0) {
+            if (discountRow) discountRow.style.display = 'flex';
+            if (discountEl) discountEl.innerText = `- ${formatPrice(discountVal)} (${Math.round(discountPct * 100)}%)`;
+            if (noteDisplay) noteDisplay.innerText = `${tierLabel} • Anda Hemat ${formatPrice(discountVal)}`;
+        } else {
+            if (discountRow) discountRow.style.display = 'none';
+            if (noteDisplay) noteDisplay.innerText = 'Termasuk garansi unit & full set aksesoris resmi Apple';
         }
     }
 
+    durPills.forEach(pill => {
+        pill.addEventListener('click', (e) => {
+            durPills.forEach(p => p.classList.remove('active'));
+            const target = e.currentTarget;
+            target.classList.add('active');
+            const targetDays = parseInt(target.dataset.days) || 1;
+            if (sliderInput) sliderInput.value = targetDays;
+            if (sliderBadge) sliderBadge.innerText = `${targetDays} Hari`;
+            recalculate();
+            audioFX.playClick();
+        });
+    });
+
+    sliderInput?.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value) || 1;
+        if (sliderBadge) sliderBadge.innerText = `${val} Hari`;
+
+        durPills.forEach(pill => {
+            const pDays = parseInt(pill.dataset.days);
+            pill.classList.toggle('active', pDays === val);
+        });
+
+        recalculate();
+    });
+
     brandSelect.addEventListener('change', () => { recalculate(); audioFX.playClick(); });
-    conditionSelect.addEventListener('change', () => { recalculate(); audioFX.playClick(); });
 
     claimBtn?.addEventListener('click', () => {
         const prodId = parseInt(brandSelect.value) || 1;
         addToCartWithAnimation(prodId, claimBtn);
         audioFX.playChime();
-        showToast("Unit iPhone berhasil ditambahkan ke daftar sewa!");
+        showToast("Unit iPhone & durasi berhasil ditambahkan ke tas sewa!");
     });
 
     recalculate();
@@ -2473,6 +2801,15 @@ if (btnCheckout) {
             return;
         }
         closeCart();
+        
+        // Initialize minimum date for booking
+        const startDateInput = document.getElementById('checkout-start-date');
+        if (startDateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            startDateInput.min = today;
+            if (!startDateInput.value) startDateInput.value = today;
+        }
+
         checkoutModal.classList.add('active');
         audioFX.playWhoosh();
     });
@@ -2482,7 +2819,36 @@ if (checkoutForm) {
     checkoutForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const totalAmountText = document.getElementById('cart-total-price').innerText;
+        const totalAmountText = document.getElementById('cart-total-price')?.innerText || 'Rp 0';
+        const name = document.getElementById('checkout-name')?.value.trim() || 'Pelanggan';
+        const phone = document.getElementById('checkout-phone')?.value.trim() || '-';
+        const startDate = document.getElementById('checkout-start-date')?.value || 'Segera';
+        const duration = document.getElementById('checkout-duration')?.value || '1';
+        const address = document.getElementById('checkout-address')?.value.trim() || '-';
+        const deliveryEl = document.querySelector('input[name="delivery"]:checked');
+        const deliveryMethod = deliveryEl ? (deliveryEl.value === 'pickup' ? 'Ambil di Store (Self Pickup)' : 'Kurir Instant / Diantar ke Lokasi') : 'Kurir Instant';
+
+        const itemsSummary = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
+        const randId = 'PRO-' + Math.floor(100000 + Math.random() * 900000);
+
+        // Build official WhatsApp confirmation link
+        const waCsNumber = '6281234567890';
+        const waMessage = `Halo ProRent Studio! Saya ingin konfirmasi booking sewa iPhone:\n\n` +
+            `*No. Order:* #${randId}\n` +
+            `*Nama Penyewa:* ${name}\n` +
+            `*No. WhatsApp:* ${phone}\n` +
+            `*Tanggal Mulai:* ${startDate}\n` +
+            `*Durasi Sewa:* ${duration} Hari\n` +
+            `*Unit:* ${itemsSummary || 'iPhone 15 Series'}\n` +
+            `*Estimasi Total:* ${totalAmountText}\n` +
+            `*Metode Pengambilan:* ${deliveryMethod}\n` +
+            `*Alamat:* ${address}\n\n` +
+            `Mohon panduan verifikasi KTP dan deposit unit. Terima kasih!`;
+
+        const waBtn = document.getElementById('btn-whatsapp-order');
+        if (waBtn) {
+            waBtn.href = `https://wa.me/${waCsNumber}?text=${encodeURIComponent(waMessage)}`;
+        }
 
         closeAllModals();
 
@@ -2493,7 +2859,6 @@ if (checkoutForm) {
         triggerCelebrationConfetti();
         audioFX.playChime();
 
-        const randId = 'PONE-' + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('receipt-order-id').innerText = randId;
         document.getElementById('receipt-total-amount').innerText = totalAmountText;
 
@@ -2522,7 +2887,7 @@ function triggerCelebrationConfetti() {
 // ==========================================
 function initTheme() {
     const themeToggle = document.getElementById('theme-toggle');
-    const currentTheme = localStorage.getItem('ponestore_theme') || 'dark';
+    const currentTheme = localStorage.getItem('prorent_theme') || localStorage.getItem('ponestore_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     document.body.setAttribute('data-theme', currentTheme);
 
@@ -2540,8 +2905,9 @@ function initTheme() {
         const active = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', active);
         document.body.setAttribute('data-theme', active);
-        localStorage.setItem('ponestore_theme', active);
+        localStorage.setItem('prorent_theme', active);
         updateThemeUI(active);
+        window.updateCosmicTheme?.(active);
         audioFX.playClick();
     });
 }
@@ -2577,16 +2943,288 @@ function initMobileNavigation() {
 }
 
 // ==========================================
+// 18B. COSMIC ASTRONOMY STARFIELD & METEOR ENGINE
+// ==========================================
+function initCosmicStarfield() {
+    const canvas = document.getElementById('cosmic-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let stars = [];
+    let meteors = [];
+    let animationFrameId = null;
+    let isHidden = false;
+
+    const mouse = { x: -9999, y: -9999, active: false };
+    let scrollY = window.scrollY || 0;
+
+    function getStarColors() {
+        const isDark = document.body.getAttribute('data-theme') !== 'light';
+        return isDark ? [
+            '#ffffff', // Pure white
+            '#e0f2fe', // Ice Cyan
+            '#bae6fd', // Starlight Blue
+            '#ede9fe', // Cosmic Violet
+            '#fef08a'  // Warm Starlight Amber
+        ] : [
+            '#334155', // Slate 700 (High contrast on light bg)
+            '#0284c7', // Sky 600
+            '#2563eb', // Royal Blue
+            '#475569', // Slate 600
+            '#6366f1'  // Indigo
+        ];
+    }
+
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+
+        createStars();
+    }
+
+    function createStars() {
+        const starCount = Math.floor((width * height) / 6000);
+        const count = Math.max(160, Math.min(starCount, 320));
+        const colors = getStarColors();
+        stars = [];
+
+        for (let i = 0; i < count; i++) {
+            const z = Math.random() * 0.9 + 0.1;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const isSpikeStar = Math.random() < 0.12 && z > 0.6;
+
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                baseY: Math.random() * height,
+                z: z,
+                radius: (Math.random() * 1.4 + 0.5) * z,
+                color: color,
+                baseAlpha: Math.random() * 0.5 + 0.35,
+                twinkleSpeed: Math.random() * 0.03 + 0.01,
+                twinklePhase: Math.random() * Math.PI * 2,
+                hasSpikes: isSpikeStar,
+                spikeLength: (Math.random() * 6 + 4) * z
+            });
+        }
+    }
+
+    window.updateCosmicTheme = function() {
+        createStars();
+    };
+
+    function maybeSpawnMeteor() {
+        if (meteors.length >= 2 || Math.random() > 0.4) return;
+
+        const startX = Math.random() * (width * 0.8) + (width * 0.1);
+        const startY = Math.random() * (height * 0.35);
+        const angle = Math.PI / 4 + (Math.random() * 0.3 - 0.15);
+        const speed = Math.random() * 12 + 14;
+        const length = Math.random() * 90 + 80;
+
+        meteors.push({
+            x: startX,
+            y: startY,
+            dx: Math.cos(angle) * speed,
+            dy: Math.sin(angle) * speed,
+            length: length,
+            life: 1.0,
+            decay: Math.random() * 0.015 + 0.012,
+            size: Math.random() * 1.5 + 1.2
+        });
+    }
+
+    setInterval(maybeSpawnMeteor, 4500);
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+        mouse.x = -9999;
+        mouse.y = -9999;
+    });
+
+    window.addEventListener('scroll', () => {
+        scrollY = window.scrollY || 0;
+    }, { passive: true });
+
+    window.addEventListener('resize', resize);
+
+    document.addEventListener('visibilitychange', () => {
+        isHidden = document.hidden;
+        if (!isHidden && !animationFrameId) {
+            renderLoop();
+        }
+    });
+
+    function renderLoop(now = performance.now()) {
+        if (isHidden) {
+            animationFrameId = null;
+            return;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        const time = now * 0.001;
+
+        for (let i = 0; i < stars.length; i++) {
+            const star = stars[i];
+            const parallaxY = (star.baseY - (scrollY * star.z * 0.15)) % height;
+            const currentY = parallaxY < 0 ? parallaxY + height : parallaxY;
+            star.y = currentY;
+
+            const alphaPulse = Math.sin(time * star.twinkleSpeed * 100 + star.twinklePhase);
+            const currentAlpha = Math.max(0.15, Math.min(1, star.baseAlpha + alphaPulse * 0.35));
+
+            ctx.save();
+            ctx.globalAlpha = currentAlpha;
+            ctx.fillStyle = star.color;
+
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (star.hasSpikes && currentAlpha > 0.5) {
+                ctx.strokeStyle = star.color;
+                ctx.lineWidth = 0.7;
+                ctx.beginPath();
+                ctx.moveTo(star.x - star.spikeLength, star.y);
+                ctx.lineTo(star.x + star.spikeLength, star.y);
+                ctx.moveTo(star.x, star.y - star.spikeLength);
+                ctx.lineTo(star.x, star.y + star.spikeLength);
+                ctx.stroke();
+            }
+
+            if (mouse.active) {
+                const dx = mouse.x - star.x;
+                const dy = mouse.y - star.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 130) {
+                    const lineAlpha = (1 - dist / 130) * 0.35;
+                    const isDark = document.body.getAttribute('data-theme') !== 'light';
+                    const rgb = isDark ? '125, 211, 252' : '2, 132, 199';
+                    ctx.strokeStyle = 'rgba(' + rgb + ', ' + lineAlpha + ')';
+                    ctx.lineWidth = 0.8;
+                    ctx.beginPath();
+                    ctx.moveTo(star.x, star.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                }
+            }
+
+            ctx.restore();
+        }
+
+        ctx.save();
+        ctx.lineWidth = 0.5;
+        const maxStarDist = 65;
+        const isDark = document.body.getAttribute('data-theme') !== 'light';
+        const meshRgb = isDark ? '186, 230, 253' : '100, 116, 139';
+        for (let i = 0; i < stars.length; i += 2) {
+            for (let j = i + 1; j < Math.min(i + 12, stars.length); j++) {
+                const s1 = stars[i];
+                const s2 = stars[j];
+                const dx = s1.x - s2.x;
+                const dy = s1.y - s2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < maxStarDist) {
+                    const alpha = (1 - dist / maxStarDist) * 0.08 * s1.z;
+                    ctx.strokeStyle = 'rgba(' + meshRgb + ', ' + alpha + ')';
+                    ctx.beginPath();
+                    ctx.moveTo(s1.x, s1.y);
+                    ctx.lineTo(s2.x, s2.y);
+                    ctx.stroke();
+                }
+            }
+        }
+        ctx.restore();
+
+        for (let m = meteors.length - 1; m >= 0; m--) {
+            const meteor = meteors[m];
+            meteor.x += meteor.dx;
+            meteor.y += meteor.dy;
+            meteor.life -= meteor.decay;
+
+            if (meteor.life <= 0 || meteor.x > width + 100 || meteor.y > height + 100) {
+                meteors.splice(m, 1);
+                continue;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = meteor.life;
+
+            const hyp = Math.sqrt(meteor.dx * meteor.dx + meteor.dy * meteor.dy);
+            const tailX = meteor.x - (meteor.dx / hyp) * meteor.length;
+            const tailY = meteor.y - (meteor.dy / hyp) * meteor.length;
+
+            const gradient = ctx.createLinearGradient(meteor.x, meteor.y, tailX, tailY);
+            const isDarkNow = document.body.getAttribute('data-theme') !== 'light';
+            if (isDarkNow) {
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(0.2, '#7dd3fc');
+                gradient.addColorStop(0.6, 'rgba(56, 189, 248, 0.4)');
+                gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+            } else {
+                gradient.addColorStop(0, '#0284c7');
+                gradient.addColorStop(0.2, '#38bdf8');
+                gradient.addColorStop(0.6, 'rgba(2, 132, 199, 0.35)');
+                gradient.addColorStop(1, 'rgba(2, 132, 199, 0)');
+            }
+
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = meteor.size;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(meteor.x, meteor.y);
+            ctx.lineTo(tailX, tailY);
+            ctx.stroke();
+
+            ctx.fillStyle = isDarkNow ? '#ffffff' : '#0284c7';
+            ctx.beginPath();
+            ctx.arc(meteor.x, meteor.y, meteor.size * 1.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        animationFrameId = requestAnimationFrame(renderLoop);
+    }
+
+    resize();
+    renderLoop();
+}
+
+// ==========================================
 // 19. APP INITIALIZATION
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initCosmicStarfield();
     initMobileNavigation();
     initHero3D();
     initScrollAnimations();
-    renderBrandFilters();
+    initStorageFilters();
     renderProducts();
     initComparisonTool();
+    initBundleVariants();
+    initTabbedStage();
     initTradeInCalculator();
     updateCartUI();
     updateWishlistUI();

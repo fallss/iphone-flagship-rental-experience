@@ -1,0 +1,11 @@
+# Agent Skills & Workspace configs
+.agents/
+.better-web-ui.md
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+npm-debug.log*
