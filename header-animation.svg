@@ -1,188 +1,171 @@
-<svg fill="none" viewBox="0 0 850 260" width="850" height="260" xmlns="http://www.w3.org/2000/svg">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-            <style>
-                @keyframes shimmer {
-                    0% { background-position: -400px 0; }
-                    100% { background-position: 400px 0; }
-                }
-                @keyframes floatOrb {
-                    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.45; }
-                    50% { transform: translate(-30px, 15px) scale(1.15); opacity: 0.75; }
-                }
-                @keyframes pulseBadge {
-                    0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); border-color: rgba(56, 189, 248, 0.5); }
-                    50% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.7); border-color: rgba(56, 189, 248, 0.9); }
-                }
-                @keyframes typewriter {
-                    0%, 18% { content: "Interactive 3D Three.js Studio • Rotasi 360° Realtime"; }
-                    20%, 38% { content: "Penyewaan Flagship iPhone Resmi • Unit 100% Original"; }
-                    40%, 58% { content: "Cosmic Astronomy Engine • Midnight Dark & Pure Frost Light"; }
-                    60%, 78% { content: "Zero-Gap Bento Architecture • 5 Paket Kreator & Kru"; }
-                    80%, 100% { content: "Kalkulator Sewa Instan • Garansi Swap Kilat & Bebas Deposit"; }
-                }
-                @keyframes cursorBlink {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0; }
-                }
-                .banner-card {
-                    position: relative;
-                    width: 100%;
-                    height: 258px;
-                    border-radius: 20px;
-                    background: radial-gradient(circle at 80% 20%, rgba(22, 33, 62, 0.95) 0%, rgba(6, 8, 20, 0.98) 70%, #03050c 100%);
-                    border: 1px solid rgba(56, 189, 248, 0.28);
-                    box-sizing: border-box;
-                    padding: 34px 40px;
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                    overflow: hidden;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-                }
-                .glow-orb-1 {
-                    position: absolute;
-                    top: -60px;
-                    right: -40px;
-                    width: 320px;
-                    height: 320px;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(56, 189, 248, 0.1) 40%, transparent 70%);
-                    filter: blur(40px);
-                    animation: floatOrb 7s ease-in-out infinite;
-                    pointer-events: none;
-                }
-                .glow-orb-2 {
-                    position: absolute;
-                    bottom: -80px;
-                    left: 20%;
-                    width: 260px;
-                    height: 260px;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-                    filter: blur(50px);
-                    animation: floatOrb 9s ease-in-out infinite reverse;
-                    pointer-events: none;
-                }
-                .badge {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 6px 14px;
-                    border-radius: 9999px;
-                    background: rgba(14, 165, 233, 0.12);
-                    border: 1px solid rgba(56, 189, 248, 0.4);
-                    color: #38bdf8;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 1.2px;
-                    text-transform: uppercase;
-                    margin-bottom: 14px;
-                    animation: pulseBadge 3s ease-in-out infinite;
-                }
-                .badge-dot {
-                    width: 7px;
-                    height: 7px;
-                    border-radius: 50%;
-                    background: #38bdf8;
-                    box-shadow: 0 0 8px #38bdf8;
-                }
-                .brand-title {
-                    font-size: 38px;
-                    font-weight: 800;
-                    letter-spacing: -1.2px;
-                    margin: 0 0 10px 0;
-                    background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 35%, #38bdf8 55%, #ffffff 80%);
-                    background-size: 800px 100%;
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    animation: shimmer 4s linear infinite;
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                }
-                .brand-tag {
-                    font-size: 13px;
-                    font-weight: 700;
-                    padding: 3px 10px;
-                    border-radius: 6px;
-                    background: linear-gradient(135deg, #0284c7, #38bdf8);
-                    color: #ffffff;
-                    letter-spacing: 1px;
-                    -webkit-text-fill-color: #ffffff;
-                    text-transform: uppercase;
-                    vertical-align: middle;
-                }
-                .dynamic-desc {
-                    font-size: 16px;
-                    color: #94a3b8;
-                    font-weight: 500;
-                    display: flex;
-                    align-items: center;
-                    margin-bottom: 20px;
-                    min-height: 24px;
-                }
-                .typing-text::after {
-                    content: "Interactive 3D Three.js Studio • Rotasi 360° Realtime";
-                    color: #e2e8f0;
-                    font-weight: 600;
-                    animation: typewriter 18s steps(1) infinite;
-                }
-                .cursor {
-                    display: inline-block;
-                    width: 8px;
-                    height: 18px;
-                    background: #38bdf8;
-                    margin-left: 6px;
-                    border-radius: 2px;
-                    animation: cursorBlink 0.9s infinite;
-                }
-                .chips-row {
-                    display: flex;
-                    gap: 10px;
-                    flex-wrap: wrap;
-                }
-                .chip {
-                    font-size: 11px;
-                    font-weight: 600;
-                    padding: 4px 12px;
-                    border-radius: 8px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    color: #94a3b8;
-                    letter-spacing: 0.4px;
-                }
-                .chip-highlight {
-                    background: rgba(56, 189, 248, 0.12);
-                    border-color: rgba(56, 189, 248, 0.3);
-                    color: #7dd3fc;
-                }
-            </style>
-            <div class="banner-card">
-                <div class="glow-orb-1"></div>
-                <div class="glow-orb-2"></div>
-                
-                <div class="badge">
-                    <span class="badge-dot"></span>
-                    <span>FLAGSHIP IPHONE RENTAL PLATFORM</span>
-                </div>
-                
-                <div class="brand-title">
-                    <span>ProRent Studio</span>
-                    <span class="brand-tag">✦ STUDIO</span>
-                </div>
-                
-                <div class="dynamic-desc">
-                    <span class="typing-text"></span>
-                    <span class="cursor"></span>
-                </div>
-                
-                <div class="chips-row">
-                    <span class="chip chip-highlight">⚡ Three.js 3D Viewport</span>
-                    <span class="chip">🪐 Cosmic Astronomy Engine</span>
-                    <span class="chip">🍱 Zero-Gap Bento</span>
-                    <span class="chip">📊 Live Estimator</span>
-                    <span class="chip">📱 100% Responsive</span>
-                </div>
-            </div>
-        </div>
-    </foreignObject>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 260" width="850" height="260">
+  <defs>
+    <!-- Background Cosmic Gradients -->
+    <radialGradient id="cosmicBg" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#0e1726" />
+      <stop offset="50%" stop-color="#080c14" />
+      <stop offset="100%" stop-color="#030508" />
+    </radialGradient>
+
+    <radialGradient id="cyanGlow" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.38" />
+      <stop offset="60%" stop-color="#0284c7" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="indigoGlow" cx="20%" cy="80%" r="55%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25" />
+      <stop offset="60%" stop-color="#6366f1" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Outer Frame Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.7" />
+      <stop offset="25%" stop-color="#38bdf8" stop-opacity="0.2" />
+      <stop offset="75%" stop-color="#6366f1" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.7" />
+    </linearGradient>
+
+    <!-- Titanium Shimmer Gradient with Native SVG SMIL Animation -->
+    <linearGradient id="titleShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff">
+        <animate attributeName="stop-color" values="#ffffff;#38bdf8;#cbd5e1;#ffffff" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="35%" stop-color="#cbd5e1">
+        <animate attributeName="stop-color" values="#cbd5e1;#ffffff;#38bdf8;#cbd5e1" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="50%" stop-color="#38bdf8">
+        <animate attributeName="stop-color" values="#38bdf8;#cbd5e1;#ffffff;#38bdf8" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="65%" stop-color="#cbd5e1">
+        <animate attributeName="stop-color" values="#cbd5e1;#38bdf8;#ffffff;#cbd5e1" dur="4s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#ffffff">
+        <animate attributeName="stop-color" values="#ffffff;#cbd5e1;#38bdf8;#ffffff" dur="4s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+
+    <!-- Badge Background Gradient -->
+    <linearGradient id="badgeBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.12" />
+    </linearGradient>
+
+    <linearGradient id="tagBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <linearGradient id="chipBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#152033" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0c121e" stop-opacity="0.9" />
+    </linearGradient>
+
+    <style>
+      .font-sans {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+    </style>
+  </defs>
+
+  <!-- Background Canvas Card -->
+  <rect x="2" y="2" width="846" height="256" rx="20" fill="url(#cosmicBg)" stroke="url(#borderGrad)" stroke-width="1.5" />
+  <rect x="2" y="2" width="846" height="256" rx="20" fill="url(#cyanGlow)" />
+  <rect x="2" y="2" width="846" height="256" rx="20" fill="url(#indigoGlow)" />
+
+  <!-- Background Decorative Cosmic Grid Lines -->
+  <line x1="2" y1="70" x2="848" y2="70" stroke="rgba(255,255,255,0.025)" stroke-width="1" />
+  <line x1="2" y1="180" x2="848" y2="180" stroke="rgba(255,255,255,0.025)" stroke-width="1" />
+  <line x1="212" y1="2" x2="212" y2="258" stroke="rgba(255,255,255,0.02)" stroke-width="1" />
+  <line x1="638" y1="2" x2="638" y2="258" stroke="rgba(255,255,255,0.02)" stroke-width="1" />
+
+  <!-- Cosmic Starfield Particles with SMIL Animations -->
+  <circle cx="100" cy="55" r="1.8" fill="#38bdf8">
+    <animate attributeName="opacity" values="0.2;1;0.2" dur="3s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="745" cy="85" r="2.2" fill="#ffffff">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="185" cy="195" r="1.6" fill="#38bdf8">
+    <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="690" cy="205" r="1.8" fill="#7dd3fc">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="425" cy="15" r="1.5" fill="#ffffff">
+    <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2.5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Twinkling Diamond Star Sparkles -->
+  <path d="M 0,-5 L 1.2,-1.2 L 5,0 L 1.2,1.2 L 0,5 L -1.2,1.2 L -5,0 L -1.2,-1.2 Z" fill="#7dd3fc" transform="translate(68, 120)">
+    <animate attributeName="opacity" values="0.1;0.9;0.1" dur="3.2s" repeatCount="indefinite" />
+  </path>
+  <path d="M 0,-4.5 L 1,-1 L 4.5,0 L 1,1 L 0,4.5 L -1,1 L -4.5,0 L -1,-1 Z" fill="#ffffff" transform="translate(782, 130)">
+    <animate attributeName="opacity" values="0.15;1;0.15" dur="3.8s" repeatCount="indefinite" />
+  </path>
+  <circle cx="75" cy="165" r="1.2" fill="#64748b" opacity="0.6" />
+  <circle cx="765" cy="50" r="1.2" fill="#64748b" opacity="0.6" />
+  <circle cx="280" cy="40" r="1.2" fill="#64748b" opacity="0.5" />
+  <circle cx="560" cy="35" r="1.2" fill="#64748b" opacity="0.5" />
+
+  <!-- Top Pill Badge: FLAGSHIP IPHONE RENTAL PLATFORM -->
+  <g transform="translate(425, 38)">
+    <rect x="-160" y="-13" width="320" height="26" rx="13" fill="url(#badgeBg)" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1" />
+    <circle cx="-136" cy="0" r="3.5" fill="#38bdf8">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="r" values="3;4.2;3" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <text class="font-sans" x="5" y="4.2" text-anchor="middle" font-size="10.5" font-weight="700" fill="#38bdf8" letter-spacing="1.2">FLAGSHIP IPHONE RENTAL PLATFORM</text>
+  </g>
+
+  <!-- Main Brand Title Group: Perfectly Centered -->
+  <g transform="translate(425, 116)">
+    <!-- ProRent Studio Text -->
+    <text class="font-sans" x="-46" y="0" text-anchor="middle" font-size="44" font-weight="800" letter-spacing="-1.2" fill="url(#titleShimmer)">ProRent Studio</text>
+    
+    <!-- Studio Tag Badge -->
+    <g transform="translate(112, -29)">
+      <rect width="80" height="26" rx="6" fill="url(#tagBg)" />
+      <text class="font-sans" x="40" y="17" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ffffff" letter-spacing="1">✦ STUDIO</text>
+    </g>
+  </g>
+
+  <!-- Dynamic Subtitle / Tagline -->
+  <text class="font-sans" x="425" y="156" text-anchor="middle" font-size="14.5" font-weight="500" fill="#94a3b8" letter-spacing="0.2">
+    Penyewaan Flagship iPhone Resmi • Pengalaman 3D Real-Time • Arsitektur Titanium
+  </text>
+
+  <!-- Feature Chips / Pills Row -->
+  <g transform="translate(48, 190)">
+    <!-- Chip 1: Three.js 3D Viewport -->
+    <g transform="translate(0, 0)">
+      <rect width="162" height="30" rx="8" fill="url(#chipBg)" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1" />
+      <text class="font-sans" x="81" y="19" text-anchor="middle" font-size="11.5" font-weight="600" fill="#7dd3fc">⚡ Three.js 3D Viewport</text>
+    </g>
+
+    <!-- Chip 2: Cosmic Starfield -->
+    <g transform="translate(172, 0)">
+      <rect width="144" height="30" rx="8" fill="url(#chipBg)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+      <text class="font-sans" x="72" y="19" text-anchor="middle" font-size="11.5" font-weight="600" fill="#cbd5e1">🪐 Cosmic Starfield</text>
+    </g>
+
+    <!-- Chip 3: Zero-Gap Bento -->
+    <g transform="translate(326, 0)">
+      <rect width="134" height="30" rx="8" fill="url(#chipBg)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+      <text class="font-sans" x="67" y="19" text-anchor="middle" font-size="11.5" font-weight="600" fill="#cbd5e1">🍱 Zero-Gap Bento</text>
+    </g>
+
+    <!-- Chip 4: Live Estimator -->
+    <g transform="translate(470, 0)">
+      <rect width="128" height="30" rx="8" fill="url(#chipBg)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+      <text class="font-sans" x="64" y="19" text-anchor="middle" font-size="11.5" font-weight="600" fill="#cbd5e1">📊 Live Estimator</text>
+    </g>
+
+    <!-- Chip 5: 100% Responsive -->
+    <g transform="translate(608, 0)">
+      <rect width="146" height="30" rx="8" fill="url(#chipBg)" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+      <text class="font-sans" x="73" y="19" text-anchor="middle" font-size="11.5" font-weight="600" fill="#cbd5e1">📱 100% Responsive</text>
+    </g>
+  </g>
 </svg>
